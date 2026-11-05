@@ -285,8 +285,15 @@ const sizesFor = (size: 'sm' | 'md' | 'lg') =>
     .b--pair .b__cell { flex: none; width: 100%; }
     .b--pair.is-stagger .b__cell:last-child { margin-top: 0; }
     .b--single .b__cell { grid-column: 1 / -1 !important; }
+    .b--single.is-left .b__cell,
+    .b--single.is-right .b__cell,
+    .b--single.is-center .b__cell { justify-content: center; }
     .pj__next-link { grid-template-columns: 1fr; row-gap: 24px; }
     .pj__next-img { grid-column: 1; grid-row: 1; justify-self: stretch; width: 100%; }
     .pj__next-copy { grid-column: 1; grid-row: 2; }
+  }
+  @media (min-width: 600px) and (max-width: 899px) {
+    .b--pair { flex-direction: row; }
+    .b--pair .b__cell { flex: var(--r) 1 0; width: auto; min-width: 0; }
   }
 </style>

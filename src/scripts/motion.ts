@@ -5,6 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 gsap.registerPlugin(ScrollTrigger);
 ScrollTrigger.config({ ignoreMobileResize: true });
 const DESKTOP = '(min-width: 900px) and (min-height: 560px)';
+const MOBILE_CINEMA = '(max-width: 899px) and (orientation: portrait) and (min-height: 520px)';
+const COMPACT = '(max-width: 899px) and (orientation: landscape), (max-width: 899px) and (max-height: 519px), (min-width: 900px) and (max-height: 559px)';
 const root = document.documentElement;
 type Cleanup = (() => void) | undefined;
 const layerTargets = new Set<HTMLElement>();
@@ -43,10 +45,27 @@ export function initMotion() {
       window.dispatchEvent(new Event('duetto:stage'));
     };
   });
-  mm.add('(max-width: 899px), (max-height: 559px)', () => {
+  mm.add(MOBILE_CINEMA, () => {
+    root.classList.add('mobile-cine');
+    const cleanups: Cleanup[] = [stage()];
+    masks(0.8);
+    photoReveals(', .vision, [data-mask]');
+    depth(0.65, true);
+    cleanups.push(hscroll(), aperture());
+    closing();
+    cleanups.push(experience());
+    return () => {
+      cleanups.forEach((cleanup) => cleanup?.());
+      releaseLayers();
+      root.classList.remove('mobile-cine', 'stage-cine');
+      delete root.dataset.stageVision;
+      window.dispatchEvent(new Event('duetto:stage'));
+    };
+  });
+  mm.add(COMPACT, () => {
     heroDrift();
     photoReveals();
-    depth(0.5);
+    depth(0.5, true);
     const cleanups = [hscroll()];
     apertureInline();
     cleanups.push(experience() ?? (() => {}));
@@ -80,7 +99,7 @@ export function initMotion() {
     layoutObserver.disconnect();
     mm.revert();
     entrance.revert();
-    root.classList.remove('scroll-animations');
+    root.classList.remove('scroll-animations', 'mobile-cine');
     releaseLayers();
   };
 }
@@ -107,14 +126,16 @@ function stage(): Cleanup {
   const imgB = section.querySelector<HTMLElement>('[data-vision-b] .ph__img')!;
   const caps = section.querySelectorAll<HTMLElement>('.vision__cap');
   const slot = section.querySelector<HTMLElement>('[data-vision-slot]')!;
-  const ratio = parseFloat(getComputedStyle(imgA).getPropertyValue('--hero-ratio')) || 1.5;
+  const mobile = window.matchMedia('(max-width: 899px)').matches;
+  const ratio = parseFloat(getComputedStyle(imgA).getPropertyValue(mobile ? '--hero-mobile-ratio' : '--hero-ratio')) || 1.5;
+  const fx = mobile ? 0.42 : 0.62, fy = mobile ? 0.28 : 0.4;
   const geo = () => {
     const W = pin.clientWidth, H = pin.clientHeight;
     const p = pin.getBoundingClientRect(), s = slot.getBoundingClientRect();
     const r = { left: s.left - p.left, top: s.top - p.top, width: s.width, height: s.height };
     const cover = (cw: number, ch: number) => {
       const w = Math.max(cw, ch * ratio), h = w / ratio;
-      return { w, ox: (cw - w) * 0.62, oy: (ch - h) * 0.4 };
+      return { w, ox: (cw - w) * fx, oy: (ch - h) * fy };
     };
     const V = cover(W, H), S = cover(r.width, r.height), scale = S.w / V.w;
     return {
@@ -128,8 +149,8 @@ function stage(): Cleanup {
   const tl = gsap.timeline({
     defaults: { ease: 'none' },
     scrollTrigger: {
-      trigger: section, start: 'top top', end: () => `+=${innerHeight * 1.5}`,
-      pin, scrub: 0.9, anticipatePin: 1, invalidateOnRefresh: true,
+      trigger: section, start: 'top top', end: () => `+=${innerHeight * (mobile ? 1.2 : 1.5)}`,
+      pin, scrub: mobile ? 0.65 : 0.9, anticipatePin: 1, invalidateOnRefresh: true,
       onRefreshInit: () => {
         gsap.set(frameA, { clipPath: 'inset(0px 0px 0px 0px)' });
         gsap.set(imgA, { x: 0, y: 0, scale: 1 });
@@ -145,7 +166,7 @@ function stage(): Cleanup {
       },
     },
   });
-  tl.to([hero, foot], { y: -60, opacity: 0, duration: 0.22, ease: 'power1.in' }, 0)
+  tl.to([hero, foot], { y: -60, autoAlpha: 0, duration: 0.22, ease: 'power1.in' }, 0)
     .to(scrim, { opacity: 0, duration: 0.3 }, 0.05)
     .to(frameA, { clipPath: () => g.clip, duration: 0.5, ease: 'power2.inOut' }, 0.1)
     .to(imgA, { x: () => g.x, y: () => g.y, scale: () => g.scale, duration: 0.5, ease: 'power2.inOut' }, 0.1)
@@ -160,7 +181,16 @@ function stage(): Cleanup {
     if (st.progress < 0.8) window.scrollTo({ top: st.start + (st.end - st.start) * 0.9, behavior: 'instant' });
   };
   copy.addEventListener('focusin', focus);
-  return () => copy.removeEventListener('focusin', focus);
+  const cue = section.querySelector<HTMLAnchorElement>('.stage__cue');
+  const goVision = (event: MouseEvent) => {
+    if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const st = tl.scrollTrigger!;
+    history.replaceState(history.state, '', '#visao');
+    window.scrollTo({ top: st.start + (st.end - st.start) * 0.92, behavior: 'smooth' });
+  };
+  cue?.addEventListener('click', goVision);
+  return () => { copy.removeEventListener('focusin', focus); cue?.removeEventListener('click', goVision); };
 }
 
 /** Máscaras e recuo de câmera das fotografias no desktop. */
@@ -177,8 +207,26 @@ function masks(strength: number) {
   });
 }
 
-function depth(amount = 1) {
+function depth(amount = 1, alignPairs = false) {
+  const grouped = new Set<HTMLElement>();
+  if (alignPairs) {
+    // Fotos na mesma linha se movem juntas para manter as bordas alinhadas.
+    const pairs = ['.ch1__main, .ch1__aside', '.ch3__small, .ch3__tall', '.ch4__b, .ch4__c', '.hum__space-a, .hum__space-b'];
+    pairs.forEach((selector) => {
+      const photos = [...document.querySelectorAll<HTMLElement>(selector)];
+      if (photos.length < 2) return;
+      photos.forEach((photo) => grouped.add(photo));
+      gsap.fromTo(photos, { yPercent: -6 * amount }, {
+        yPercent: 6 * amount, ease: 'none',
+        scrollTrigger: {
+          trigger: photos[0].parentElement!, start: 'top bottom', end: 'bottom top', scrub: 0.4,
+          onToggle: layers(...photos.map((photo): [HTMLElement, string] => [photo, 'transform'])),
+        },
+      });
+    });
+  }
   document.querySelectorAll<HTMLElement>('[data-depth]').forEach((el) => {
+    if (grouped.has(el)) return;
     const d = parseFloat(el.dataset.depth || '0') * amount;
     gsap.fromTo(el, { yPercent: -d * 60 }, {
       yPercent: d * 60, ease: 'none',
@@ -219,9 +267,15 @@ function aperture() {
   document.querySelectorAll<HTMLElement>('[data-aperture]').forEach((stageEl) => {
     const img = stageEl.querySelector<HTMLElement>('[data-aperture-img]')!;
     const copy = stageEl.querySelector<HTMLElement>('[data-aperture-copy]')!;
+    const photo = img.querySelector<HTMLImageElement>('.ph__img')!;
+    const originalSizes = photo.sizes;
+    const sizePhoto = () => {
+      if (window.innerWidth < 900) photo.sizes = `${Math.ceil(Math.max(img.clientWidth, img.clientHeight * photo.width / photo.height))}px`;
+    };
+    sizePhoto();
     const tl = gsap.timeline({
       defaults: { ease: 'none' },
-      scrollTrigger: { trigger: stageEl, start: 'top top', end: '+=80%', pin: true, scrub: 0.8, anticipatePin: 1, onToggle: layers([img, 'clip-path']) },
+      scrollTrigger: { trigger: stageEl, start: 'top top', end: '+=80%', pin: true, scrub: 0.8, anticipatePin: 1, onToggle: layers([img, 'clip-path']), onRefresh: sizePhoto },
     });
     tl.fromTo(img, { clipPath: 'circle(16% at 50% 46%)' }, { clipPath: 'circle(76% at 50% 46%)', duration: 0.7, ease: 'power2.inOut' }, 0)
       .fromTo(img.querySelector('.ph__img'), { scale: 1.25 }, { scale: 1, duration: 0.8 }, 0)
@@ -230,7 +284,7 @@ function aperture() {
       if (tl.scrollTrigger && tl.progress() < 0.9) window.scrollTo({ top: tl.scrollTrigger.end, behavior: 'instant' });
     };
     copy.addEventListener('focusin', focus);
-    cleanups.push(() => copy.removeEventListener('focusin', focus));
+    cleanups.push(() => { copy.removeEventListener('focusin', focus); photo.sizes = originalSizes; });
   });
   return () => cleanups.forEach((cleanup) => cleanup());
 }
@@ -276,12 +330,9 @@ function heroDrift() {
     .to(hero, { yPercent: -18, opacity: 0 }, 0);
 }
 
-function photoReveals() {
-  const skip = '.stage__a, .ch3__img, .end__img, .arc__pv, .ch2__frame, .arc__thumb';
-  const targets = [
-    ...[...document.querySelectorAll<HTMLElement>('main .ph')].filter((ph) => !ph.closest(skip)),
-    ...document.querySelectorAll<HTMLElement>('main .hum__portrait picture'),
-  ];
+function photoReveals(extraSkip = '') {
+  const skip = '.stage__a, .ch3__img, .end__img, .arc__pv, .ch2__frame, .arc__thumb' + extraSkip;
+  const targets = [...document.querySelectorAll<HTMLElement>('main .ph, main .hum__portrait picture')].filter((photo) => !photo.closest(skip));
   const fold = innerHeight * 0.9;
   targets.forEach((el) => {
     const frame = el.matches('picture') ? el : el.querySelector<HTMLElement>('.ph__frame') ?? el;

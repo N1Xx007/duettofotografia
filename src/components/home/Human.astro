@@ -135,10 +135,10 @@ const founders = site.founders ? `${site.founders[0]} e ${site.founders[1]}` : n
       </p>
     </div>
     <div class="hum__space-a" data-depth="-0.08">
-      <Photo photo={studioPhotos.softbox} sizes="(min-width: 900px) 26vw, 60vw" maxWidth={1200} />
+      <Photo photo={studioPhotos.softbox} sizes="(min-width: 900px) 26vw, 50vw" maxWidth={1200} />
     </div>
     <div class="hum__space-b" data-depth="0.06">
-      <Photo photo={studioPhotos.concreto} sizes="(min-width: 900px) 38vw, 80vw" maxWidth={1600} />
+      <Photo photo={studioPhotos.concreto} sizes="(min-width: 900px) 38vw, 50vw" maxWidth={1600} />
     </div>
   </div>
 </section>
@@ -240,5 +240,8 @@ const founders = site.founders ? `${site.founders[0]} e ${site.founders[1]}` : n
     .hum__space-copy { grid-column: 1 / -1; padding-top: 0; }
     .hum__space-a { grid-column: 1 / span 3; }
     .hum__space-b { grid-column: 4 / span 3; }
+    .hum__space { align-items: start; }
+    .hum .hum__space-a :global(.ph__frame),
+    .hum .hum__space-b :global(.ph__frame) { aspect-ratio: 4 / 5; }
   }
 </style>

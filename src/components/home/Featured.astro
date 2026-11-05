@@ -38,7 +38,7 @@ const campoStrip = [
   <!-- 01 — Presença ------------------------------------------------ -->
   <article class="ch ch1 wrap" data-tone="dark" aria-labelledby="ch1-t">
     <a class="ch1__main" href={href(presenca)} data-mask aria-hidden="true" tabindex="-1">
-      <Photo photo={presenca.cover} sizes="(min-width: 900px) 38vw, 100vw" maxWidth={1600} imgAttrs={{ 'data-mask-img': true }} />
+      <Photo photo={presenca.cover} sizes="(min-width: 900px) 38vw, 50vw" maxWidth={1600} imgAttrs={{ 'data-mask-img': true }} />
     </a>
     <div class="ch1__copy">
       <p class="ch__meta label"><span class="num">Nº 01</span><span>{cat(presenca)}</span></p>
@@ -89,7 +89,7 @@ const campoStrip = [
     </div>
     <div class="ch3__after wrap">
       <div class="ch3__small" data-depth="0.08">
-        <Photo photo={(dias.blocks[1] as any).photo} sizes="(min-width: 900px) 38vw, 100vw" maxWidth={1200} />
+        <Photo photo={(dias.blocks[1] as any).photo} sizes="(min-width: 900px) 38vw, 50vw" maxWidth={1200} />
       </div>
       <blockquote class="ch3__quote" data-reveal>
         <p class="h2">“Isso parece <em>comigo.</em>”</p>
@@ -129,10 +129,10 @@ const campoStrip = [
       <a class="link" href={href(espera)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
     </div>
     <a class="ch5__img" href={href(espera)} tabindex="-1" aria-hidden="true" data-reveal style="--delay:.1s">
-      <Photo photo={espera.cover} sizes="(min-width: 900px) 30vw, 70vw" maxWidth={1200} />
+      <Photo photo={espera.cover} sizes="(min-width: 900px) 30vw, 50vw" maxWidth={1200} />
     </a>
     <div class="ch5__side" data-reveal style="--delay:.2s">
-      <Photo photo={(espera.blocks[1] as any).photos[0]} sizes="(min-width: 900px) 22vw, 30vw" maxWidth={800} />
+      <Photo photo={(espera.blocks[1] as any).photos[0]} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={800} />
     </div>
     <div class="ch5__all">
       <span class="rule" aria-hidden="true"></span>
@@ -256,7 +256,8 @@ const campoStrip = [
 
   @media (max-width: 899px) {
     .ch2__card { width: 76vw; padding-right: 0; }
-    .ch2__frame { height: calc(var(--h) * 0.62svh); min-height: 0; margin-top: calc(var(--y) * 0.35svh); }
+    .ch2__track { align-items: center; }
+    .ch2__frame { height: min(90vw, 480px, calc(100svh - var(--header-h) - 96px)); min-height: 0; width: auto; aspect-ratio: 4 / 5; margin-top: 0; flex: none; }
   }
 
   :global(html.scroll-animations) .ch2__pin { height: 100svh; display: flex; align-items: center; overflow: hidden; scroll-snap-type: none; scrollbar-width: none; }
@@ -275,9 +276,9 @@ const campoStrip = [
   /* ------------------------------------------- celular */
   @media (max-width: 899px) {
     .ch1, .ch3__after, .ch4, .ch5 { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 24px; }
-    .ch1__main { grid-column: 1 / -1; grid-row: 1; }
+    .ch1__main { grid-column: 1 / span 3; grid-row: 1; }
     .ch1__copy { grid-column: 1 / -1; grid-row: 2; padding-bottom: 0; }
-    .ch1__aside { grid-column: 3 / -1; grid-row: 3; }
+    .ch1__aside { grid-column: 4 / span 3; grid-row: 1; }
 
     /* foto horizontal não vira retrato em tela cheia: imagem acima, texto abaixo */
     .ch3__stage { height: auto; min-height: 0; overflow: visible; }
@@ -285,20 +286,37 @@ const campoStrip = [
     .ch3__img :global(.ph) { height: 100%; }
     .ch3__img::after { display: none; }
     .ch3__copy { position: relative; bottom: auto; padding-top: 28px; }
-    .ch3__small { grid-column: 1 / -1; }
-    .ch3__quote { grid-column: 1 / -1; padding: 8px 0; }
-    .ch3__tall { grid-column: 3 / -1; }
+    .ch3__small { grid-column: 1 / span 3; grid-row: 1; }
+    .ch3__quote { grid-column: 1 / -1; grid-row: 2; padding: 8px 0; }
+    .ch3__tall { grid-column: 4 / span 3; grid-row: 1; }
 
     .ch4 { grid-template-rows: none; }
     .ch4__a { grid-column: 1 / -1; grid-row: 1; }
     .ch4__b { grid-column: 1 / span 3; grid-row: 2; }
-    .ch4__c { grid-column: 4 / span 3; grid-row: 2; margin-top: 18vw; }
+    .ch4__c { grid-column: 4 / span 3; grid-row: 2; margin-top: 0; }
     .ch4__copy { grid-column: 1 / -1; grid-row: 3; padding-top: 8px; }
 
-    .ch5__copy { grid-column: 1 / -1; }
-    .ch5__img { grid-column: 1 / span 4; }
-    .ch5__side { display: none; }
-    .ch5__all { grid-template-columns: 1fr; }
+    .ch5__copy { grid-column: 1 / -1; grid-row: 1; }
+    .ch5__img { grid-column: 1 / span 3; grid-row: 2; }
+    .ch5__side { display: block; grid-column: 4 / span 3; grid-row: 2; }
+    .ch5__all { grid-template-columns: 1fr; grid-row: 3; }
     .ch5__all .rule { display: none; }
+
+    .ch1, .ch3__after, .ch4, .ch5 { align-items: start; }
+    .feat .ch1__main :global(.ph__frame),
+    .feat .ch1__aside :global(.ph__frame),
+    .feat .ch3__small :global(.ph__frame),
+    .feat .ch3__tall :global(.ph__frame),
+    .feat .ch4__b :global(.ph__frame),
+    .feat .ch4__c :global(.ph__frame),
+    .feat .ch5__img :global(.ph__frame),
+    .feat .ch5__side :global(.ph__frame) { aspect-ratio: 4 / 5; }
+
+    :global(html.mobile-cine) .ch3__stage { height: 100svh; min-height: 0; overflow: hidden; }
+    :global(html.mobile-cine) .ch3__img { position: absolute; inset: 0; height: 100%; aspect-ratio: auto; }
+    :global(html.mobile-cine) .ch3__img::after { display: block; }
+    :global(html.mobile-cine) .ch3__copy { position: absolute; bottom: clamp(32px, 7svh, 64px); padding-top: 0; gap: 16px; }
+    :global(html.mobile-cine) .ch3__copy .ch__title { font-size: clamp(2.7rem, 11vw, 4.5rem); max-width: 10ch; }
+    :global(html.mobile-cine) .ch3__copy .lede { font-size: 1rem; }
   }
 </style>

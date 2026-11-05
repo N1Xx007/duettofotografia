@@ -12,7 +12,7 @@ const heroArt = { ...heroPhoto, alt: 'Retrato feminino em luz e sombra, do ensai
   <div class="stage__pin" data-stage-pin>
     <!-- Primeiro olhar: a fotografia de abertura -->
     <div class="stage__a" data-stage-a>
-      <div class="stage__a-img" data-stage-a-img style={`--hero-ratio:${heroPhoto.ratio}`}>
+      <div class="stage__a-img" data-stage-a-img style={`--hero-ratio:${heroPhoto.ratio};--hero-mobile-ratio:${heroPhotoMobile.ratio}`}>
         <Photo photo={heroArt} mobile={heroPhotoMobile} fit="cover" priority sizes="100vw" flag={false} />
       </div>
       <div class="stage__scrim" data-stage-scrim aria-hidden="true"></div>
@@ -56,13 +56,13 @@ const heroArt = { ...heroPhoto, alt: 'Retrato feminino em luz e sombra, do ensai
       </div>
 
       <div class="vision__b" data-vision-b>
-        <Photo photo={visionPhoto} sizes="(min-width: 900px) 22vw, 42vw" maxWidth={1200} />
+        <Photo photo={visionPhoto} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={1200} />
         <p class="vision__cap label label--soft"><span class="num">I</span> — um olhar</p>
       </div>
 
       <div class="vision__a" data-vision-a>
         <div class="vision__a-slot" data-vision-slot>
-          <Photo photo={heroPhoto} fit="cover" sizes="(min-width: 900px) 38vw, 56vw" maxWidth={1600} />
+          <Photo photo={heroPhoto} fit="cover" sizes="(min-width: 900px) 38vw, 50vw" maxWidth={1600} />
         </div>
         <p class="vision__cap label label--soft"><span class="num">II</span> — outro olhar</p>
       </div>
@@ -174,12 +174,13 @@ const heroArt = { ...heroPhoto, alt: 'Retrato feminino em luz e sombra, do ensai
       background: linear-gradient(to top, rgb(42 33 28 / 0.95) 0%, rgb(42 33 28 / 0.5) 45%, rgb(42 33 28 / 0.1) 75%);
     }
     .stage__credit a { display: none; }
-    .vision { row-gap: 20px; }
-    .vision__copy { grid-column: 1 / -1; margin-bottom: 28px; }
-    /* celular: os dois olhares em escada, cada um no próprio formato */
-    .vision__b { grid-column: 1 / span 7; }
-    .vision__a { grid-column: 4 / -1; }
-    .vision__a-slot { aspect-ratio: 1.493; }
+    .vision { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px 16px; }
+    .vision__copy { grid-column: 1 / -1; margin-bottom: 0; }
+    .vision__b { grid-column: 1; grid-row: 2; }
+    .vision__a { grid-column: 2; grid-row: 2; }
+    .vision__a-slot,
+    .vision .vision__b :global(.ph__frame) { aspect-ratio: 4 / 5; }
+    .vision__cap { margin-top: 8px; }
   }
 
 
@@ -194,4 +195,36 @@ const heroArt = { ...heroPhoto, alt: 'Retrato feminino em luz e sombra, do ensai
   :global(html.stage-cine) .vision__a-slot :global(.ph) { visibility: hidden; }
   :global(html.stage-cine) .stage__hero,
   :global(html.stage-cine) .stage__foot { z-index: 3; }
+  @media (max-width: 899px) {
+    :global(html.stage-cine) .stage__pin { height: 100svh; }
+    :global(html.stage-cine) .stage__hero,
+    :global(html.stage-cine) .stage__foot { min-height: 0; }
+    :global(html.stage-cine) .vision {
+      --vision-photo-height: min(30svh, calc((100vw - 2 * var(--gutter) - 16px) * 0.625));
+      height: 100svh;
+      padding-block: calc(var(--header-h) + 24px) 28px;
+      align-items: start;
+      align-content: center;
+      row-gap: 20px;
+    }
+    :global(html.stage-cine) .vision__copy { align-self: start; padding-bottom: 0; gap: 14px; }
+    :global(html.stage-cine) .vision__title { font-size: clamp(1.7rem, 7vw, 2.5rem); }
+    :global(html.stage-cine) .vision__copy .body-copy { font-size: 0.9375rem; line-height: 1.5; }
+    :global(html.stage-cine) .vision__a,
+    :global(html.stage-cine) .vision__b { align-self: start; }
+    :global(html.stage-cine) .vision__a-slot,
+    :global(html.stage-cine) .vision .vision__b :global(.ph__frame) { height: var(--vision-photo-height); aspect-ratio: auto; }
+  }
+  @media (max-width: 899px) and (max-height: 640px) {
+    .stage__title { font-size: clamp(2rem, 8vw, 3rem); max-width: none; }
+    .stage__kicker { margin-bottom: 16px; }
+    .stage__lede { font-size: 0.875rem; margin-top: 18px; }
+    .stage__actions { margin-top: 22px; }
+    .stage__hero { padding-bottom: 84px; }
+    :global(html.stage-cine) .vision { --vision-photo-height: 22svh; padding-block: calc(var(--header-h) + 16px) 20px; row-gap: 12px; }
+    :global(html.stage-cine) .vision__copy { gap: 8px; }
+    :global(html.stage-cine) .vision__title { font-size: 1.5rem; }
+    :global(html.stage-cine) .vision__copy .body-copy { font-size: 0.875rem; line-height: 1.45; }
+    :global(html.stage-cine) .vision__copy .link { font-size: 0.8125rem; }
+  }
 </style>
