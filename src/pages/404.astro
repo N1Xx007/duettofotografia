@@ -1,0 +1,24 @@
+---
+import Base from '../layouts/Base.astro';
+import Iris from '../components/Iris.astro';
+---
+
+<Base title="Página não encontrada" current="projeto">
+  <section class="nf wrap" data-tone="dark" data-scene="Fora de quadro">
+    <span class="nf__iris" aria-hidden="true"><Iris /></span>
+    <p class="label label--accent">Erro 404</p>
+    <h1 class="h1">Esta cena ficou <em>fora de quadro.</em></h1>
+    <p class="lede">A página que você procurou não existe ou mudou de endereço.</p>
+    <div class="nf__links">
+      <a class="btn" href="/">Voltar ao início</a>
+      <a class="btn btn--ghost" href="/trabalhos/">Ver o acervo</a>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf { min-height: 100svh; display: grid; align-content: center; justify-items: start; gap: 24px; padding-block: calc(var(--header-h) + 40px) 80px; }
+  .nf em { color: var(--champagne); }
+  .nf__iris { width: 44px; color: var(--champagne); }
+  .nf__links { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 12px; }
+</style>

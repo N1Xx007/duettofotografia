@@ -1,0 +1,292 @@
+---
+/**
+ * Cena 05 — Projeto individual.
+ * A sequência de imagens segue os blocos definidos em src/data/projects.ts:
+ * cada projeto tem sua própria composição.
+ */
+import Base from '../../layouts/Base.astro';
+import Photo from '../../components/Photo.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import Closing from '../../components/Closing.astro';
+import { projects, categoryById, allPhotos, type Photo as PhotoData } from '../../data/projects';
+import { photoUrl, photoSrcset } from '../../lib/img';
+
+export function getStaticPaths() {
+  return projects.map((project, i) => ({
+    params: { slug: project.slug },
+    props: { project, next: projects[(i + 1) % projects.length], index: i },
+  }));
+}
+
+const { project, next, index } = Astro.props;
+const category = categoryById(project.category);
+const photos = allPhotos(project);
+const zoomIndex = (p: PhotoData) => photos.indexOf(p);
+const landscape = project.cover.ratio >= 1;
+const number = String(index + 1).padStart(2, '0');
+// a capa já abre a página: se o primeiro bloco for a mesma foto isolada, não a repetimos
+const first = project.blocks[0];
+const skipFirst = (first.kind === 'single' || first.kind === 'full') && first.photo === project.cover;
+const blocks = skipFirst ? project.blocks.slice(1) : project.blocks;
+const coverZoom = photos.indexOf(project.cover);
+
+const sizesFor = (size: 'sm' | 'md' | 'lg') =>
+  ({ sm: '(min-width: 900px) 30vw, 70vw', md: '(min-width: 900px) 46vw, 90vw', lg: '(min-width: 900px) 64vw, 100vw' })[size];
+---
+
+<Base
+  title={project.title}
+  description={`${project.title} — ${category.label}. ${project.lede}`}
+  image={photoUrl(project.cover, 1600, 70)}
+  current="projeto"
+  preload={[{ href: photoUrl(project.cover, 1600), srcset: photoSrcset(project.cover), sizes: landscape ? '100vw' : '(min-width: 900px) 50vw, 100vw' }]}
+>
+  <article class="pj" aria-labelledby="pj-title">
+    <!-- Abertura do projeto -->
+    <header class:list={['pj__hero', landscape ? 'pj__hero--wide' : 'pj__hero--split']} data-tone="dark" data-scene={project.title}>
+      <div class="pj__cover" style={`--cr:${project.cover.ratio}`}>
+        <Photo photo={project.cover} fit="cover" priority sizes={landscape ? '100vw' : '(min-width: 900px) 50vw, 100vw'} zoom={coverZoom >= 0 ? coverZoom : undefined} />
+      </div>
+      <div class="pj__head wrap">
+        <a class="pj__back label" href="/trabalhos/"><span aria-hidden="true">←</span> Acervo</a>
+        <div class="pj__titles">
+          <p class="pj__meta label"><span class="num">Nº {number}</span><span>{category.label}</span></p>
+          <h1 class="display pj__title" id="pj-title" data-hero-line>{project.title}</h1>
+          <p class="lede pj__lede" data-hero-line>{project.lede}</p>
+        </div>
+      </div>
+    </header>
+
+    <!-- Contexto -->
+    <section class="pj__info wrap" data-tone="light" data-scene="O projeto" aria-label="Sobre o projeto">
+      <div class="pj__text">
+        {project.text.map((t, i) => <p class:list={[i === 0 ? 'h3' : 'body-copy']} data-reveal>{t}</p>)}
+      </div>
+      <dl class="pj__facts">
+        <div><dt class="label label--accent">Categoria</dt><dd>{category.label}</dd></div>
+        <div><dt class="label label--accent">Serviço</dt><dd>{category.service}</dd></div>
+        {project.client && <div><dt class="label label--accent">Cliente</dt><dd>{project.client}</dd></div>}
+        {project.year && <div><dt class="label label--accent">Ano</dt><dd>{project.year}</dd></div>}
+        <div><dt class="label label--accent">Imagens</dt><dd>{photos.length} fotografias</dd></div>
+        {project.provisional && (
+          <div class="pj__prov"><dt class="label label--accent">Status</dt><dd>Projeto ilustrativo — imagens provisórias</dd></div>
+        )}
+      </dl>
+    </section>
+
+    <!-- Sequência fotográfica -->
+    <section class="pj__seq" data-tone="light" aria-label="Fotografias">
+      {blocks.map((block) => {
+        if (block.kind === 'full')
+          return (
+            <div class="b b--full" data-mask>
+              <Photo photo={block.photo} fit={block.photo.ratio >= 1 ? 'natural' : 'cover'} sizes="100vw" zoom={zoomIndex(block.photo)} imgAttrs={{ 'data-mask-img': true }} />
+            </div>
+          );
+        if (block.kind === 'pair')
+          return (
+            <div class:list={['b b--pair wrap', block.stagger && 'is-stagger']} style={`--sum:${block.photos[0].ratio + block.photos[1].ratio}`}>
+              {block.photos.map((p) => (
+                <div class="b__cell" data-reveal style={`--r:${p.ratio}`}>
+                  <Photo photo={p} sizes="(min-width: 900px) 42vw, 92vw" maxWidth={1600} zoom={zoomIndex(p)} />
+                </div>
+              ))}
+            </div>
+          );
+        if (block.kind === 'single')
+          return (
+            <div class:list={['b b--single wrap', `is-${block.place}`, `is-${block.size}`]}>
+              <div class="b__cell" data-reveal>
+                <Photo photo={block.photo} sizes={sizesFor(block.size)} zoom={zoomIndex(block.photo)} />
+              </div>
+            </div>
+          );
+        return (
+          <blockquote class="b b--note wrap" data-reveal>
+            <p class="h2">{block.text}</p>
+          </blockquote>
+        );
+      })}
+
+      {project.credits && project.credits.length > 0 && (
+        <dl class="pj__credits wrap">
+          {project.credits.map((c) => (
+            <div><dt class="label label--accent">{c.role}</dt><dd>{c.name}</dd></div>
+          ))}
+        </dl>
+      )}
+    </section>
+
+    <!-- Próximo trabalho: continuidade -->
+    <nav class="pj__next" data-tone="dark" data-scene="Próximo trabalho" aria-label="Próximo trabalho">
+      <a href={`/trabalhos/${next.slug}/`} class="pj__next-link wrap">
+        <div class="pj__next-img" data-mask style={`--r:${next.cover.ratio}`}>
+          <Photo photo={next.cover} sizes="(min-width: 900px) 50vw, 100vw" maxWidth={1600} flag={false} imgAttrs={{ 'data-mask-img': true }} />
+        </div>
+        <span class="pj__next-copy">
+          <span class="label label--accent">Próximo trabalho · {categoryById(next.category).label}</span>
+          <span class="display pj__next-title">{next.title} <span aria-hidden="true">→</span></span>
+        </span>
+      </a>
+      <div class="pj__next-foot wrap">
+        <a class="link" href="/trabalhos/">Ver todo o acervo <span class="arrow" aria-hidden="true">→</span></a>
+        <a class="link" href="/">Página inicial</a>
+      </div>
+    </nav>
+  </article>
+
+  <Closing compact />
+  <Lightbox photos={photos} title={project.title} slot="after" />
+</Base>
+
+<style>
+  /* ---------------------------------------------- abertura */
+  .pj__hero { position: relative; min-height: 100svh; display: grid; }
+  .pj__cover { position: relative; }
+  .pj__hero--wide .pj__cover { position: absolute; inset: 0; }
+  .pj__hero--wide .pj__cover::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(42 33 28 / 0.9), rgb(42 33 28 / 0.2) 55%, transparent 75%);
+  }
+  .pj__hero--wide .pj__cover :global(.ph) { height: 100%; }
+  .pj__head {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: calc(var(--header-h) + 24px);
+    padding-bottom: clamp(48px, 10vh, 110px);
+    min-height: 100svh;
+  }
+  .pj__back { display: inline-flex; gap: 10px; color: var(--off-72); padding-block: 8px; align-self: flex-start; }
+  .pj__back:hover { color: var(--champagne); }
+  .pj__titles { display: grid; gap: 20px; justify-items: start; }
+  .pj__meta { display: flex; gap: 18px; color: var(--champagne); }
+  .pj__meta .num { font-size: 1.05rem; letter-spacing: 0; text-transform: none; }
+  .pj__meta span:last-child { color: var(--off-72); }
+  .pj__title { max-width: 11ch; }
+  .pj__lede { color: var(--off-72); }
+
+  /* retrato: tela dividida */
+  .pj__hero--split { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .pj__hero--split .pj__cover { grid-column: 2; grid-row: 1; height: 100svh; min-height: 560px; position: sticky; top: 0; }
+  .pj__hero--split .pj__cover :global(.ph) { height: 100%; }
+  .pj__hero--split .pj__cover::before {
+    content: '';
+    position: absolute;
+    inset: 0 0 auto;
+    height: 140px;
+    z-index: 1;
+    background: linear-gradient(to bottom, rgb(42 33 28 / 0.6), transparent);
+    pointer-events: none;
+  }
+  .pj__hero--split .pj__head { grid-column: 1; grid-row: 1; max-width: none; margin: 0; }
+
+  /* ---------------------------------------------- contexto */
+  .pj__info {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 32px);
+    row-gap: 40px;
+    padding-block: clamp(64px, 10vh, 120px) clamp(48px, 7vh, 90px);
+  }
+  .pj__text { grid-column: 1 / span 7; display: grid; gap: 20px; }
+  .pj__text .h3 { max-width: 26ch; line-height: 1.3; }
+  .pj__facts { grid-column: 9 / span 4; display: grid; gap: 18px; align-content: start; }
+  .pj__facts div { display: grid; gap: 4px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .pj__facts dd { font-size: var(--t-small); }
+  .pj__prov dd { color: var(--champagne-deep); }
+
+  /* ---------------------------------------------- sequência
+     Regras de proporção:
+     - nenhuma foto é recortada (exceto o leve ajuste da tela cheia);
+     - nenhuma foto passa da altura da tela (--cap);
+     - fotos em par têm a mesma altura (largura proporcional a cada formato). */
+  .pj__seq { --cap: 86svh; display: grid; gap: clamp(40px, 7vh, 96px); padding-bottom: clamp(72px, 12vh, 140px); }
+
+  .b--full { overflow: hidden; }
+  .b--full :global(.ph__frame) { max-height: 100svh; }
+  .b--full :global(.ph--cover) { height: 100svh; }
+
+  .b--pair {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(12px, 2vw, 32px);
+    max-width: calc(var(--sum) * var(--cap) + 2 * var(--gutter) + 32px);
+  }
+  .b--pair .b__cell { flex: var(--r) 1 0; min-width: 0; }
+  .b--pair.is-stagger .b__cell:last-child { margin-top: clamp(40px, 9vh, 110px); }
+
+  .b--single { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: clamp(12px, 2vw, 32px); }
+  .b--single .b__cell { display: flex; }
+  .b--single :global(.ph) { width: min(100%, calc(var(--cap) * var(--ratio))); }
+  .b--single.is-sm .b__cell { grid-column-end: span 5; }
+  .b--single.is-md .b__cell { grid-column-end: span 7; }
+  .b--single.is-lg .b__cell { grid-column-end: span 10; }
+  .b--single.is-left .b__cell { grid-column-start: 1; justify-content: flex-start; }
+  .b--single.is-right .b__cell { justify-content: flex-end; }
+  .b--single.is-right.is-sm .b__cell { grid-column-start: 8; }
+  .b--single.is-right.is-md .b__cell { grid-column-start: 6; }
+  .b--single.is-right.is-lg .b__cell { grid-column-start: 3; }
+  .b--single.is-center .b__cell { justify-content: center; }
+  .b--single.is-center.is-sm .b__cell { grid-column-start: 4; grid-column-end: span 6; }
+  .b--single.is-center.is-md .b__cell { grid-column-start: 3; grid-column-end: span 8; }
+  .b--single.is-center.is-lg .b__cell { grid-column-start: 2; }
+  .b--note { text-align: center; }
+  .b--note p { max-width: 20ch; margin-inline: auto; font-style: italic; }
+  .pj__credits { display: flex; flex-wrap: wrap; gap: 24px 48px; }
+
+  /* ---------------------------------------------- próximo: capa inteira, na própria proporção */
+  .pj__next { padding-block: clamp(64px, 10vh, 120px) clamp(48px, 8vh, 96px); }
+  .pj__next-link {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 32px);
+    align-items: end;
+  }
+  .pj__next-img {
+    grid-column: 6 / -1;
+    justify-self: end;
+    width: min(100%, calc(76svh * var(--r)));
+    overflow: hidden;
+  }
+  .pj__next-img :global(.ph__img) { transition: transform 1.6s var(--ease-out), opacity 0.9s; }
+  .pj__next-link:hover .pj__next-img :global(.ph__img) { transform: scale(1.03); }
+  .pj__next-copy { grid-column: 1 / span 5; grid-row: 1; display: grid; gap: 14px; padding-bottom: 8px; }
+  .pj__next-title { max-width: 10ch; }
+  .pj__next-foot { display: flex; justify-content: space-between; gap: 20px; padding-top: 28px; }
+
+  @media (max-width: 899px) {
+    .pj__hero--wide,
+    .pj__hero--split { grid-template-columns: 1fr; min-height: 0; }
+    .pj__hero--wide .pj__cover,
+    .pj__hero--split .pj__cover {
+      position: relative;
+      inset: auto;
+      grid-column: 1;
+      grid-row: 1;
+      height: auto;
+      min-height: 0;
+      margin-top: var(--header-h);
+      aspect-ratio: var(--cr);
+      max-height: 78svh;
+    }
+    .pj__hero--wide .pj__cover::after,
+    .pj__hero--split .pj__cover::before { display: none; }
+    .pj__hero--split .pj__head,
+    .pj__hero--wide .pj__head { grid-column: 1; grid-row: 2; min-height: 0; padding-top: 28px; padding-bottom: 56px; gap: 28px; }
+    .pj__back { order: 2; }
+    .pj__info { grid-template-columns: 1fr; }
+    .pj__text, .pj__facts { grid-column: 1; }
+    .b--pair { flex-direction: column; gap: 16px; max-width: none; }
+    .b--pair .b__cell { flex: none; width: 100%; }
+    .b--pair.is-stagger .b__cell:last-child { margin-top: 0; }
+    .b--single .b__cell { grid-column: 1 / -1 !important; }
+    .pj__next-link { grid-template-columns: 1fr; row-gap: 24px; }
+    .pj__next-img { grid-column: 1; grid-row: 1; justify-self: stretch; width: 100%; }
+    .pj__next-copy { grid-column: 1; grid-row: 2; }
+  }
+</style>

@@ -1,0 +1,169 @@
+---
+/**
+ * Fotografia com reserva de espaço (sem mudança de layout), cor de carregamento,
+ * srcset responsivo, tratamento de erro e legenda de imagem provisória.
+ *
+ * fit="natural": a moldura segue a proporção da foto.
+ * fit="cover":   a moldura ocupa o espaço do pai e a foto é recortada (object-fit).
+ */
+import type { Photo as PhotoData } from '../data/projects';
+import { photoUrl, photoSrcset, photoTone } from '../lib/img';
+
+interface Props {
+  photo: PhotoData;
+  sizes?: string;
+  maxWidth?: number;
+  fit?: 'natural' | 'cover';
+  priority?: boolean;
+  class?: string;
+  /** Mostra a legenda "Imagem provisória" (padrão: sim para imagens do Unsplash). */
+  flag?: boolean;
+  /** Índice no lightbox do projeto — torna a foto ampliável. */
+  zoom?: number;
+  /** Atributos extras para o <img> (ex.: data-parallax). */
+  imgAttrs?: Record<string, string | boolean>;
+  /** Direção de arte: foto alternativa (vertical) para telas de celular. */
+  mobile?: PhotoData;
+}
+
+const {
+  photo,
+  sizes = '100vw',
+  maxWidth = 2200,
+  fit = 'natural',
+  priority = false,
+  class: className = '',
+  flag,
+  zoom,
+  imgAttrs = {},
+  mobile,
+} = Astro.props;
+
+const provisional = photo.src.startsWith('photo-');
+const showFlag = flag ?? provisional;
+const fallbackWidth = Math.min(maxWidth, 1600);
+const Tag = zoom !== undefined ? 'button' : 'div';
+---
+
+<figure
+  class:list={['ph', `ph--${fit}`, className]}
+  style={`--ratio:${photo.ratio};--tone:${photoTone(photo)};${photo.focus ? `--focus:${photo.focus};` : ''}`}
+>
+  <Tag
+    class="ph__frame"
+    {...(zoom !== undefined
+      ? { type: 'button', 'data-zoom': zoom, 'aria-label': `Ampliar imagem: ${photo.alt}` }
+      : {})}
+  >
+    {mobile && (
+      <picture class="ph__pic">
+        <source media="(max-width: 899px)" srcset={photoSrcset(mobile, 1600)} sizes="100vw" />
+        <img
+          class="ph__img"
+          src={photoUrl(photo, fallbackWidth)}
+          srcset={photoSrcset(photo, maxWidth)}
+          sizes={sizes}
+          alt={photo.alt}
+          width={1000}
+          height={Math.round(1000 / photo.ratio)}
+          loading={priority ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchpriority={priority ? 'high' : 'auto'}
+          {...imgAttrs}
+        />
+      </picture>
+    )}
+    {!mobile && <img
+      class="ph__img"
+      src={photoUrl(photo, fallbackWidth)}
+      srcset={photoSrcset(photo, maxWidth)}
+      sizes={sizes}
+      alt={photo.alt}
+      width={1000}
+      height={Math.round(1000 / photo.ratio)}
+      loading={priority ? 'eager' : 'lazy'}
+      decoding="async"
+      fetchpriority={priority ? 'high' : 'auto'}
+      {...imgAttrs}
+    />}
+    <span class="ph__error" aria-hidden="true">Imagem indisponível</span>
+    {showFlag && <span class="ph__flag label"><span class="ph__flag-long">Imagem </span>provisória</span>}
+  </Tag>
+</figure>
+
+<style>
+  .ph {
+    position: relative;
+    margin: 0;
+  }
+  .ph__frame {
+    position: relative;
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    background: var(--tone);
+    container-type: inline-size;
+  }
+  .ph--natural .ph__frame { aspect-ratio: var(--ratio); }
+  .ph--cover,
+  .ph--cover .ph__frame { height: 100%; }
+
+  .ph__pic { display: contents; }
+  .ph__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: var(--focus, 50% 50%);
+  }
+
+  /* Carregamento: a imagem surge sobre a cor média, sem salto */
+  .ph__img { transition: opacity 0.35s var(--ease-out); }
+  .ph__img.is-loaded { opacity: 1; }
+
+  .ph__error {
+    position: absolute;
+    inset: 0;
+    display: none;
+    place-items: center;
+    padding: 16px;
+    font-size: var(--t-label);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--off-72);
+    background: var(--cafe);
+    text-align: center;
+  }
+  .ph.is-error .ph__error { display: grid; }
+  .ph.is-error .ph__img { visibility: hidden; }
+
+  /* Legenda de conteúdo provisório: visível, discreta e sempre legível */
+  .ph__flag {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    z-index: 2;
+    padding: 5px 8px 4px;
+    font-size: 0.5625rem;
+    letter-spacing: 0.22em;
+    color: var(--off);
+    background: rgb(42 33 28 / 0.62);
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  /* em molduras estreitas, a etiqueta encolhe para não cobrir a foto */
+  @container (max-width: 200px) {
+    .ph__flag { left: 6px; bottom: 6px; padding: 4px 6px 3px; letter-spacing: 0.16em; }
+    .ph__flag-long { display: none; }
+  }
+
+  button.ph__frame {
+    cursor: zoom-in;
+  }
+  button.ph__frame .ph__img {
+    transition: opacity 0.9s var(--ease-out), transform 1.2s var(--ease-out);
+  }
+  @media (hover: hover) {
+    button.ph__frame:hover .ph__img.is-loaded { transform: scale(1.025); }
+  }
+  button.ph__frame:focus-visible { outline-offset: 3px; }
+</style>

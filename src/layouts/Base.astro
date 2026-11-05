@@ -1,0 +1,102 @@
+---
+import '@fontsource-variable/fraunces/opsz.css';
+import '@fontsource-variable/fraunces/opsz-italic.css';
+import '@fontsource/readex-pro/latin-300.css';
+import '@fontsource/readex-pro/latin-400.css';
+import '@fontsource/readex-pro/latin-500.css';
+import '../styles/global.css';
+
+import Header from '../components/Header.astro';
+import SceneIndicator from '../components/SceneIndicator.astro';
+import { site } from '../data/site';
+import { photoUrl } from '../lib/img';
+import { heroPhoto } from '../data/projects';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  /** Rota atual, para o menu. */
+  current?: 'home' | 'trabalhos' | 'projeto';
+  /** Imagem a pré-carregar com prioridade (LCP). */
+  preload?: { href: string; srcset?: string; sizes?: string; media?: string }[];
+}
+
+const {
+  title,
+  description = site.description,
+  image = photoUrl(heroPhoto, 1600, 70),
+  current = 'home',
+  preload,
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${site.name}` : `${site.name} · ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? site.url).href;
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: site.name,
+  slogan: site.tagline,
+  description: site.description,
+  url: site.url,
+  image,
+  areaServed: `${site.city} - ${site.state}`,
+  address: { '@type': 'PostalAddress', addressLocality: site.city, addressRegion: site.state, addressCountry: 'BR' },
+  sameAs: [site.contact.instagram.url],
+  ...(site.contact.email ? { email: site.contact.email } : {}),
+  ...(site.contact.whatsapp ? { telephone: `+${site.contact.whatsapp}` } : {}),
+};
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <meta name="theme-color" content="#2A211C" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={image} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://images.unsplash.com" crossorigin />
+    {preload?.map((p) => (
+      <link rel="preload" as="image" href={p.href} imagesrcset={p.srcset} imagesizes={p.sizes} media={p.media} fetchpriority="high" />
+    ))}
+
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+
+    <!-- Antes da pintura: habilita estados de JS/movimento e evita flashes -->
+    <script is:inline>
+      (function () {
+        var d = document.documentElement;
+        d.classList.add('js');
+        var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!reduce) d.classList.add('motion');
+      })();
+    </script>
+  </head>
+  <body data-page={current}>
+    <a class="skip-link" href="#conteudo">Pular para o conteúdo</a>
+    <Header current={current} />
+    <SceneIndicator />
+    <main id="conteudo" tabindex="-1">
+      <slot />
+    </main>
+    <slot name="after" />
+
+    <script>
+      import '../scripts/main';
+    </script>
+  </body>
+</html>

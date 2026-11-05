@@ -1,0 +1,197 @@
+---
+/** Abertura cinematográfica: reenquadramento da foto e transição para o díptico. */
+import Photo from '../Photo.astro';
+import { heroPhoto, heroPhotoMobile, visionPhoto, projects } from '../../data/projects';
+
+const heroProject = projects.find((p) => p.cover.src === heroPhoto.src);
+// a mesma descrição vale para as duas versões (horizontal no desktop, vertical no celular)
+const heroArt = { ...heroPhoto, alt: 'Retrato feminino em luz e sombra, do ensaio Entre luz e sombra' };
+---
+
+<section class="stage" id="abertura" data-tone="dark" data-scene="A identidade" data-stage>
+  <div class="stage__pin" data-stage-pin>
+    <!-- Primeiro olhar: a fotografia de abertura -->
+    <div class="stage__a" data-stage-a>
+      <div class="stage__a-img" data-stage-a-img style={`--hero-ratio:${heroPhoto.ratio}`}>
+        <Photo photo={heroArt} mobile={heroPhotoMobile} fit="cover" priority sizes="100vw" flag={false} />
+      </div>
+      <div class="stage__scrim" data-stage-scrim aria-hidden="true"></div>
+    </div>
+
+    <div class="stage__hero wrap" data-stage-hero>
+      <p class="label label--accent stage__kicker" data-hero-line>Estúdio fotográfico · Goiânia</p>
+      <h1 class="display stage__title">
+        <span class="line" data-hero-line>Duas perspectivas.</span>
+        <span class="line" data-hero-line><em>Uma mesma visão.</em></span>
+      </h1>
+      <p class="lede stage__lede" data-hero-line>
+        Fotografia, audiovisual e direção criativa para pessoas e marcas se enxergarem — e serem vistas — do jeito que desejam.
+      </p>
+      <div class="stage__actions" data-hero-line>
+        <a class="btn" href="#trabalhos">Explorar trabalhos</a>
+      </div>
+    </div>
+
+    <div class="stage__foot wrap" data-stage-foot>
+      <p class="stage__credit label label--soft">
+        {heroProject && <a href={`/trabalhos/${heroProject.slug}/`}>Na tela: {heroProject.title}</a>}
+        <span class="stage__prov">Imagem provisória</span>
+      </p>
+      <a class="stage__cue label" href="#visao">
+        <span>Role</span>
+        <span class="stage__cue-line" aria-hidden="true"></span>
+      </a>
+    </div>
+
+    <!-- Cena 02 — A visão -->
+    <div class="vision wrap" id="visao" data-scene="A visão" data-stage-vision>
+      <div class="vision__copy" data-vision-copy>
+        <p class="label label--accent">02 — A visão</p>
+        <h2 class="h2 vision__title">Dois olhares, <em>um só clique.</em></h2>
+        <p class="body-copy">
+          Mais do que registrar, a Duetto busca entender quem está diante da câmera. Duas irmãs, duas
+          perspectivas e uma mesma paixão pela imagem — para criar fotografias que realmente representem cada cliente.
+        </p>
+        <a class="link" href="#estudio">Conheça o estúdio <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="vision__b" data-vision-b>
+        <Photo photo={visionPhoto} sizes="(min-width: 900px) 22vw, 42vw" maxWidth={1200} />
+        <p class="vision__cap label label--soft"><span class="num">I</span> — um olhar</p>
+      </div>
+
+      <div class="vision__a" data-vision-a>
+        <div class="vision__a-slot" data-vision-slot>
+          <Photo photo={heroPhoto} fit="cover" sizes="(min-width: 900px) 38vw, 56vw" maxWidth={1600} />
+        </div>
+        <p class="vision__cap label label--soft"><span class="num">II</span> — outro olhar</p>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<style>
+  /* ============================================== estático (padrão) */
+  .stage { position: relative; }
+  .stage__pin { position: relative; }
+
+  .stage__a {
+    position: relative;
+    height: 100svh;
+    min-height: 560px;
+    overflow: hidden;
+  }
+  .stage__a-img { position: absolute; inset: 0; }
+  .stage__a-img :global(.ph) { height: 100%; }
+  .stage__a-img :global(.ph__img) { object-position: 62% 40%; }
+
+  .stage__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(to top, rgb(42 33 28 / 0.92) 0%, rgb(42 33 28 / 0.35) 38%, transparent 62%),
+      linear-gradient(to right, rgb(42 33 28 / 0.55), transparent 55%);
+  }
+
+  /* textos ancorados na primeira tela (100svh), mesmo com a visão logo abaixo */
+  .stage__hero,
+  .stage__foot {
+    position: absolute;
+    left: 0; right: 0; top: 0;
+    height: 100svh;
+    min-height: 560px;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    pointer-events: none;
+  }
+  .stage__hero > *,
+  .stage__foot > * { pointer-events: auto; }
+  .stage__hero { padding-bottom: clamp(88px, 15vh, 150px); align-items: flex-start; }
+  .stage__kicker { margin-bottom: 22px; }
+  .stage__title { max-width: 10.5ch; }
+  .stage__title .line { display: block; }
+  .stage__title em { color: var(--champagne); }
+  .stage__lede { margin-top: 26px; max-width: 30em; color: var(--off-72); }
+  .stage__actions { margin-top: 34px; display: flex; gap: 18px; flex-wrap: wrap; }
+
+  .stage__foot {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    padding-bottom: 22px;
+  }
+  .stage__credit { display: flex; flex-wrap: wrap; gap: 6px 18px; padding-left: 0; }
+  .stage__credit a:hover { color: var(--off); }
+  .stage__prov { color: var(--champagne); }
+  .stage__cue { display: inline-flex; align-items: center; gap: 14px; padding-block: 8px; }
+  .stage__cue-line {
+    position: relative;
+    width: 1px;
+    height: 44px;
+    overflow: hidden;
+    background: var(--off-16);
+  }
+  .stage__cue-line::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--champagne);
+    transform: translateY(-100%);
+    animation: cue 2.4s var(--ease-in-out) infinite;
+  }
+  @keyframes cue {
+    0% { transform: translateY(-100%); }
+    55% { transform: translateY(0); }
+    100% { transform: translateY(100%); }
+  }
+
+  /* Visão (fluxo normal) */
+  .vision {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 32px);
+    row-gap: 40px;
+    padding-block: clamp(72px, 11vh, 130px);
+    align-items: start;
+  }
+  .vision__copy { grid-column: 1 / span 4; align-self: center; display: grid; gap: 22px; justify-items: start; }
+  .vision__title em { color: var(--champagne); }
+  /* díptico: um retrato e uma horizontal, com alturas equivalentes */
+  .vision__b { grid-column: 5 / span 3; align-self: end; }
+  .vision__a { grid-column: 8 / span 5; align-self: end; }
+  .vision__a-slot { aspect-ratio: 1.25; }
+  .vision__cap { margin-top: 14px; }
+  .vision__cap .num { color: var(--champagne); font-size: 1rem; letter-spacing: 0; text-transform: none; }
+
+  @media (max-width: 899px) {
+    .stage__hero { padding-bottom: 92px; }
+    .stage__a-img :global(.ph__img) { object-position: 42% 28%; }
+    .stage__scrim {
+      background: linear-gradient(to top, rgb(42 33 28 / 0.95) 0%, rgb(42 33 28 / 0.5) 45%, rgb(42 33 28 / 0.1) 75%);
+    }
+    .stage__credit a { display: none; }
+    .vision { row-gap: 20px; }
+    .vision__copy { grid-column: 1 / -1; margin-bottom: 28px; }
+    /* celular: os dois olhares em escada, cada um no próprio formato */
+    .vision__b { grid-column: 1 / span 7; }
+    .vision__a { grid-column: 4 / -1; }
+    .vision__a-slot { aspect-ratio: 1.493; }
+  }
+
+
+  :global(html.stage-cine) .stage__pin { height: 100vh; overflow: hidden; }
+  :global(html.stage-cine) .stage__a { position: absolute; inset: 0; height: auto; min-height: 0; z-index: 1; }
+  :global(html.stage-cine) .stage__a-img { transform-origin: 0 0; }
+  :global(html.stage-cine) .vision { position: absolute; inset: 0; z-index: 2; padding-block: 0; height: 100vh; align-content: center; align-items: end; pointer-events: none; }
+  :global(html.stage-cine) .vision > * { pointer-events: auto; }
+  :global(html.stage-cine) .vision__copy { align-self: end; padding-bottom: 4vh; }
+  :global(html.stage-cine) .vision__b,
+  :global(html.stage-cine) .vision__a { align-self: end; }
+  :global(html.stage-cine) .vision__a-slot :global(.ph) { visibility: hidden; }
+  :global(html.stage-cine) .stage__hero,
+  :global(html.stage-cine) .stage__foot { z-index: 3; }
+</style>

@@ -1,0 +1,304 @@
+---
+/** Trabalhos selecionados: galeria horizontal nativa e demais capitulos em fluxo vertical. */
+import Photo from '../Photo.astro';
+import { projects, categoryById, type Project } from '../../data/projects';
+
+const bySlug = (slug: string) => projects.find((p) => p.slug === slug)!;
+const presenca = bySlug('presenca');
+const campo = bySlug('campo-aberto');
+const dias = bySlug('primeiros-dias');
+const pele = bySlug('cor-e-pele');
+const espera = bySlug('espera');
+
+const href = (p: Project) => `/trabalhos/${p.slug}/`;
+const cat = (p: Project) => categoryById(p.category).label;
+
+const campoStrip = [
+  { photo: campo.cover, h: 78, y: 4 },
+  { photo: (campo.blocks[0] as any).photos[1], h: 62, y: 18 },
+  { photo: (campo.blocks[1] as any).photo, h: 70, y: 0 },
+  { photo: (campo.blocks[3] as any).photos[0], h: 56, y: 26 },
+  { photo: (campo.blocks[4] as any).photo, h: 74, y: 8 },
+  { photo: (campo.blocks[5] as any).photos[0], h: 60, y: 20 },
+];
+---
+
+<section class="feat" id="trabalhos" aria-labelledby="trabalhos-title">
+  <!-- Abertura da cena -->
+  <header class="feat__intro wrap" data-tone="dark" data-scene="Trabalhos selecionados">
+    <p class="label label--accent" data-reveal>03 — Trabalhos selecionados</p>
+    <h2 class="h1 feat__intro-title" id="trabalhos-title" data-reveal style="--delay:.08s">
+      Histórias que <em>parecem com quem as viveu.</em>
+    </h2>
+    <p class="feat__intro-note label label--soft" data-reveal style="--delay:.16s">
+      Seleção ilustrativa · imagens provisórias até a publicação do acervo
+    </p>
+  </header>
+
+  <!-- 01 — Presença ------------------------------------------------ -->
+  <article class="ch ch1 wrap" data-tone="dark" aria-labelledby="ch1-t">
+    <a class="ch1__main" href={href(presenca)} data-mask aria-hidden="true" tabindex="-1">
+      <Photo photo={presenca.cover} sizes="(min-width: 900px) 38vw, 100vw" maxWidth={1600} imgAttrs={{ 'data-mask-img': true }} />
+    </a>
+    <div class="ch1__copy">
+      <p class="ch__meta label"><span class="num">Nº 01</span><span>{cat(presenca)}</span></p>
+      <h3 class="h1 ch__title" id="ch1-t"><a href={href(presenca)}>{presenca.title}</a></h3>
+      <p class="lede">{presenca.lede}</p>
+      <a class="link" href={href(presenca)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <div class="ch1__aside" data-depth="-0.12">
+      <Photo photo={(presenca.blocks[1] as any).photos[0]} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={800} />
+    </div>
+  </article>
+
+  <!-- 02 — Campo aberto: travelling horizontal ------------------------ -->
+  <article class="ch ch2" data-tone="dark" aria-labelledby="ch2-t" data-hscroll>
+    <div class="ch2__pin" data-hscroll-pin tabindex="0" role="region" aria-label="Fotografias de Campo aberto">
+      <div class="ch2__track" data-hscroll-track>
+        <div class="ch2__card">
+          <p class="ch__meta label"><span class="num">Nº 02</span><span>{cat(campo)}</span></p>
+          <h3 class="h1 ch__title" id="ch2-t"><a href={href(campo)}>{campo.title}</a></h3>
+          <p class="lede">{campo.lede}</p>
+          <a class="link" href={href(campo)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
+          <p class="ch2__hint label label--soft" aria-hidden="true">
+            <span class="ch2__hint-touch">Deslize</span><span class="ch2__hint-desk">Continue rolando</span> →
+          </p>
+        </div>
+        {campoStrip.map((f, i) => (
+          <a class="ch2__frame" href={href(campo)} style={`--h:${f.h};--y:${f.y};--r:${f.photo.ratio}`} tabindex="-1" aria-hidden="true">
+            <Photo photo={f.photo} fit="cover" sizes="(min-width: 900px) 34vw, 70vw" maxWidth={1200} />
+            <span class="ch2__idx label label--soft">{String(i + 1).padStart(2, '0')} / {String(campoStrip.length).padStart(2, '0')}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </article>
+
+  <!-- 03 — Primeiros dias: abertura de diafragma ------------------- -->
+  <article class="ch ch3" data-tone="black" aria-labelledby="ch3-t">
+    <div class="ch3__stage" data-aperture>
+      <div class="ch3__img" data-aperture-img style={`--r:${dias.cover.ratio}`}>
+        <Photo photo={dias.cover} fit="cover" sizes="100vw" />
+      </div>
+      <div class="ch3__copy wrap" data-aperture-copy data-reveal>
+        <p class="ch__meta label"><span class="num">Nº 03</span><span>{cat(dias)}</span></p>
+        <h3 class="display ch__title" id="ch3-t"><a href={href(dias)}>{dias.title}</a></h3>
+        <p class="lede">{dias.lede}</p>
+        <a class="link" href={href(dias)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+    </div>
+    <div class="ch3__after wrap">
+      <div class="ch3__small" data-depth="0.08">
+        <Photo photo={(dias.blocks[1] as any).photo} sizes="(min-width: 900px) 38vw, 100vw" maxWidth={1200} />
+      </div>
+      <blockquote class="ch3__quote" data-reveal>
+        <p class="h2">“Isso parece <em>comigo.</em>”</p>
+        <footer class="label label--soft">O resultado que buscamos em cada entrega</footer>
+      </blockquote>
+      <div class="ch3__tall" data-depth="-0.06">
+        <Photo photo={(dias.blocks[2] as any).photos[0]} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={800} />
+      </div>
+    </div>
+  </article>
+
+  <!-- 04 — Cor e pele: camadas ---------------------------------------- -->
+  <article class="ch ch4 wrap" data-tone="dark" aria-labelledby="ch4-t">
+    <div class="ch4__a" data-mask>
+      <Photo photo={pele.cover} sizes="(min-width: 900px) 38vw, 100vw" maxWidth={1600} imgAttrs={{ 'data-mask-img': true }} />
+    </div>
+    <div class="ch4__b" data-depth="-0.16">
+      <Photo photo={(pele.blocks[0] as any).photos[1]} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={800} />
+    </div>
+    <div class="ch4__c" data-depth="0.1">
+      <Photo photo={(pele.blocks[1] as any).photo} sizes="(min-width: 900px) 22vw, 50vw" maxWidth={800} />
+    </div>
+    <div class="ch4__copy">
+      <p class="ch__meta label"><span class="num">Nº 04</span><span>{cat(pele)}</span></p>
+      <h3 class="h1 ch__title" id="ch4-t"><a href={href(pele)}>{pele.title}</a></h3>
+      <p class="lede">{pele.lede}</p>
+      <a class="link" href={href(pele)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+  </article>
+
+  <!-- 05 — Espera: pausa --------------------------------------------- -->
+  <article class="ch ch5 wrap" data-tone="light" aria-labelledby="ch5-t">
+    <div class="ch5__copy" data-reveal>
+      <p class="ch__meta label"><span class="num">Nº 05</span><span>{cat(espera)}</span></p>
+      <h3 class="h1 ch__title" id="ch5-t"><a href={href(espera)}>{espera.title}</a></h3>
+      <p class="lede">{espera.lede}</p>
+      <a class="link" href={href(espera)}>Ver projeto <span class="arrow" aria-hidden="true">→</span></a>
+    </div>
+    <a class="ch5__img" href={href(espera)} tabindex="-1" aria-hidden="true" data-reveal style="--delay:.1s">
+      <Photo photo={espera.cover} sizes="(min-width: 900px) 30vw, 70vw" maxWidth={1200} />
+    </a>
+    <div class="ch5__side" data-reveal style="--delay:.2s">
+      <Photo photo={(espera.blocks[1] as any).photos[0]} sizes="(min-width: 900px) 22vw, 30vw" maxWidth={800} />
+    </div>
+    <div class="ch5__all">
+      <span class="rule" aria-hidden="true"></span>
+      <a class="btn btn--ghost" href="/trabalhos/">Ver todo o acervo · {projects.length} trabalhos</a>
+    </div>
+  </article>
+</section>
+
+<style>
+  .feat { position: relative; }
+  .feat__intro {
+    padding-top: clamp(96px, 14vh, 160px);
+    padding-bottom: clamp(48px, 8vh, 96px);
+    display: grid;
+    gap: 26px;
+  }
+  .feat__intro-title { max-width: 14ch; }
+  .feat__intro-title em,
+  .ch__title em { color: var(--champagne); }
+
+  .ch { position: relative; }
+  .ch__meta { display: flex; gap: 18px; align-items: baseline; color: var(--accent); }
+  .ch__meta .num { font-size: 1.05rem; letter-spacing: 0; text-transform: none; }
+  .ch__meta span:last-child { color: var(--fg-soft); }
+  .ch__title a { background: linear-gradient(currentColor, currentColor) 0 100% / 0 1px no-repeat; transition: background-size 0.7s var(--ease-out); }
+  .ch__title a:hover { background-size: 100% 1px; }
+
+  /* Grade comum. As fotos mantêm a própria proporção; o que varia é escala e posição. */
+  .ch1, .ch3__after, .ch4, .ch5 {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(12px, 2vw, 32px);
+  }
+
+  /* ------------------------------------------- 01 */
+  .ch1 { padding-bottom: clamp(72px, 12vh, 140px); align-items: start; }
+  .ch1__main { grid-column: 1 / span 5; grid-row: 1 / span 2; display: block; overflow: hidden; }
+  .ch1__copy { grid-column: 7 / span 5; grid-row: 1; align-self: end; display: grid; gap: 20px; justify-items: start; padding-bottom: 40px; }
+  .ch1__aside { grid-column: 9 / span 3; grid-row: 2; }
+
+  /* ------------------------------------------- 02 */
+  .ch2 { padding-bottom: clamp(64px, 10vh, 120px); }
+  .ch2__pin { overflow-x: auto; overscroll-behavior-x: contain; scroll-snap-type: x proximity; scroll-padding-inline: var(--gutter); scrollbar-width: thin; scrollbar-color: var(--champagne) transparent; }
+  .ch2__track {
+    display: flex;
+    align-items: flex-start;
+    gap: clamp(16px, 2.4vw, 40px);
+    width: max-content;
+    padding-inline: var(--gutter);
+    padding-bottom: 38px;
+  }
+  .ch2__card {
+    width: min(78vw, 420px);
+    align-self: center;
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+    padding-right: 4vw;
+    scroll-snap-align: start;
+  }
+  .ch2__hint { margin-top: 12px; }
+  .ch2__hint-desk { display: none; }
+  .ch2__frame {
+    position: relative;
+    display: block;
+    height: calc(var(--h) * 0.75svh);
+    min-height: 300px;
+    aspect-ratio: var(--r);
+    margin-top: calc(var(--y) * 0.6svh);
+    scroll-snap-align: center;
+  }
+  .ch2__idx { position: absolute; right: 0; top: calc(100% + 10px); }
+
+  /* ------------------------------------------- 03 */
+  .ch3__stage { position: relative; height: 100svh; min-height: 520px; overflow: hidden; }
+  .ch3__img { position: absolute; inset: 0; }
+  .ch3__img::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgb(0 0 0 / 0.82), rgb(0 0 0 / 0.1) 55%, transparent);
+    pointer-events: none;
+  }
+  .ch3__copy {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: clamp(48px, 10vh, 110px);
+    display: grid;
+    gap: 18px;
+    justify-items: start;
+    z-index: 2;
+  }
+  .ch3__copy .lede { color: var(--off-72); }
+  .ch3__after { padding-block: clamp(64px, 10vh, 120px); align-items: center; }
+  .ch3__small { grid-column: 1 / span 5; }
+  .ch3__quote { grid-column: 6 / span 4; display: grid; gap: 20px; padding-inline: 8px; }
+  .ch3__quote em { color: var(--champagne); }
+  .ch3__tall { grid-column: 10 / span 3; }
+
+  /* ------------------------------------------- 04 */
+  .ch4 {
+    grid-template-rows: auto 1fr;
+    padding-block: clamp(48px, 8vh, 96px) clamp(72px, 12vh, 140px);
+    align-items: start;
+  }
+  .ch4__a { grid-column: 1 / span 5; grid-row: 1 / span 2; overflow: hidden; }
+  .ch4__b { grid-column: 7 / span 3; grid-row: 1; }
+  .ch4__c { grid-column: 10 / span 3; grid-row: 1 / span 2; margin-top: clamp(60px, 14vh, 160px); }
+  .ch4__copy { grid-column: 7 / span 3; grid-row: 2; align-self: end; display: grid; gap: 18px; justify-items: start; padding-top: 32px; position: relative; z-index: 2; }
+
+  /* ------------------------------------------- 05 */
+  .ch5 {
+    row-gap: 48px;
+    padding-block: clamp(80px, 13vh, 150px) clamp(64px, 10vh, 120px);
+    align-items: end;
+  }
+  .ch5__copy { grid-column: 1 / span 4; display: grid; gap: 18px; justify-items: start; }
+  .ch5__img { grid-column: 5 / span 4; display: block; }
+  .ch5__side { grid-column: 10 / span 3; }
+  .ch5__all { grid-column: 1 / -1; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 28px; margin-top: clamp(40px, 7vh, 88px); }
+
+  @media (max-width: 899px) {
+    .ch2__card { width: 76vw; padding-right: 0; }
+    .ch2__frame { height: calc(var(--h) * 0.62svh); min-height: 0; margin-top: calc(var(--y) * 0.35svh); }
+  }
+
+  :global(html.scroll-animations) .ch2__pin { height: 100svh; display: flex; align-items: center; overflow: hidden; scroll-snap-type: none; scrollbar-width: none; }
+  :global(html.scroll-animations) .ch2__track { padding-bottom: 0; }
+  :global(html.scroll-animations) .ch2__hint-desk { display: inline; }
+  :global(html.scroll-animations) .ch2__hint-touch { display: none; }
+  :global(html.scroll-animations) .ch2 { padding-bottom: 0; }
+  @media (max-width: 899px) {
+    :global(html.scroll-animations) .ch2__pin { padding-top: var(--header-h); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ch2__pin { scroll-snap-type: none; }
+  }
+
+  /* ------------------------------------------- celular */
+  @media (max-width: 899px) {
+    .ch1, .ch3__after, .ch4, .ch5 { grid-template-columns: repeat(6, minmax(0, 1fr)); row-gap: 24px; }
+    .ch1__main { grid-column: 1 / -1; grid-row: 1; }
+    .ch1__copy { grid-column: 1 / -1; grid-row: 2; padding-bottom: 0; }
+    .ch1__aside { grid-column: 3 / -1; grid-row: 3; }
+
+    /* foto horizontal não vira retrato em tela cheia: imagem acima, texto abaixo */
+    .ch3__stage { height: auto; min-height: 0; overflow: visible; }
+    .ch3__img { position: relative; inset: auto; aspect-ratio: var(--r); overflow: hidden; }
+    .ch3__img :global(.ph) { height: 100%; }
+    .ch3__img::after { display: none; }
+    .ch3__copy { position: relative; bottom: auto; padding-top: 28px; }
+    .ch3__small { grid-column: 1 / -1; }
+    .ch3__quote { grid-column: 1 / -1; padding: 8px 0; }
+    .ch3__tall { grid-column: 3 / -1; }
+
+    .ch4 { grid-template-rows: none; }
+    .ch4__a { grid-column: 1 / -1; grid-row: 1; }
+    .ch4__b { grid-column: 1 / span 3; grid-row: 2; }
+    .ch4__c { grid-column: 4 / span 3; grid-row: 2; margin-top: 18vw; }
+    .ch4__copy { grid-column: 1 / -1; grid-row: 3; padding-top: 8px; }
+
+    .ch5__copy { grid-column: 1 / -1; }
+    .ch5__img { grid-column: 1 / span 4; }
+    .ch5__side { display: none; }
+    .ch5__all { grid-template-columns: 1fr; }
+    .ch5__all .rule { display: none; }
+  }
+</style>
