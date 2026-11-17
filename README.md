@@ -1,44 +1,44 @@
-# Duetto Estúdio Fotográfico — site
+# Duetto Estúdio Fotográfico · site
 
-Site em Astro 7 + GSAP (ScrollTrigger). Coreografia completa de scroll, imagens responsivas e links internos suaves; respeita `prefers-reduced-motion`.
+Site de uma página, em HTML, CSS e JavaScript puros. Não tem build nem dependências: basta publicar a pasta.
+
+## Rodar localmente
 
 ```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # gera /dist (site estático)
+python -m http.server 4321
 ```
+
+Depois, abra http://localhost:4321.
+
+## Publicar no Netlify
+
+Arraste a pasta inteira para o Netlify Drop, ou conecte o repositório. O `netlify.toml` já publica a raiz (`publish = "."`).
 
 ## Estrutura
 
-| Caminho | O que é |
+| Arquivo | O que é |
 | --- | --- |
-| `src/data/site.ts` | Nome, slogan, cidade e **contatos** |
-| `src/data/projects.ts` | **Portfólio**: categorias, projetos, fotos e composição de cada página |
-| `src/components/home/` | Cenas da página inicial (abertura/visão, trabalhos, lado humano) |
-| `src/components/Archive.astro` | Acervo filtrável (home e `/trabalhos/`) |
-| `src/pages/trabalhos/[slug].astro` | Página de cada projeto + galeria ampliada |
-| `src/scripts/reveals.ts` | Entradas leves com IntersectionObserver, uma vez por elemento |
-| `src/scripts/motion.ts` | Abertura, máscaras, parallax, travelling horizontal, diafragma e linha de experiência |
-| `src/styles/global.css` | Tokens da marca (cores, tipografia, espaçamento) |
+| `index.html` | Todo o conteúdo: textos, pacotes, preços, contatos, perguntas frequentes |
+| `assets/css/style.css` | Visual: cores da marca, tipografia, espaçamentos, versão celular |
+| `assets/js/main.js` | Menu no celular, filtro do portfólio, foto ampliada, barra fixa de agendamento |
+| `assets/img/` | Fotos do estúdio e `logo.svg` (logo vetorizada a partir do manual) |
 
-## Base de marca (Manual Duetto — Zenith Company, out/2026)
+## Ordem da página
 
-- Cores: Café profundo `#2A211C` (principal), Champagne `#D6B47A` (destaque), Off-white `#F7F3ED` (fundo), Preto `#000000` (contraste). O laranja `#F7A127` aparece somente na logo original.
-- Tipografia: Quiche (títulos) e Readex Pro (textos).
-- Logo: versões original, positiva e negativa, vetorizadas a partir do arquivo do manual (`src/components/Logo.astro`).
-- Tom de voz: profissional, acolhedor, claro, elegante, humano e natural.
+Abertura → Trabalhos → Ensaios → Pacotes → Como reservar → O estúdio → Avaliações → Vídeos institucionais → Dúvidas → Contato.
 
-## Pendências — o que o estúdio precisa enviar
+Todos os botões levam ao WhatsApp **(62) 99123-0095** com uma mensagem pronta (por pacote ou por tipo de ensaio), para o estúdio saber de onde veio o contato. No celular, uma barra "Agendar pelo WhatsApp" aparece depois da abertura e some na seção de contato.
 
-1. **Fotografias reais do acervo.** Hoje, todos os projetos usam imagens provisórias do Unsplash, sinalizadas no site como “Imagem provisória”. A única foto real é a das sócias (manual). Para cada projeto: fotos em boa resolução, título, categoria, ano, cliente (se puder ser citado) e créditos.
-2. **Fotos do espaço e de bastidores** para a cena “O lado humano / O estúdio”.
-3. **Contatos:** WhatsApp, e-mail e endereço (`src/data/site.ts`). Enquanto vazios, o botão “Fale com o estúdio” leva ao Instagram `@duettoestudiofotografico`.
-4. **Nomes das sócias** (`founders` em `src/data/site.ts`).
-5. **Fonte Quiche Display** licenciada para web (`.woff2`) — colocar em `public/fonts/` e descomentar o bloco `@font-face` em `global.css`. Até lá, usa-se Fraunces como alternativa.
-6. **Logo em vetor oficial** (SVG/PDF), para substituir a vetorização feita a partir do PNG.
-7. **Domínio definitivo** (`site` em `astro.config.mjs` e `public/robots.txt`).
-8. Vídeos reais, se houver, para o projeto de audiovisual.
+## Como editar
 
-## Como trocar uma foto provisória por uma real
+- **Preços e pacotes:** procure por `class="plan"` no `index.html`.
+- **Fotos do portfólio:** cada foto é um `<li data-cat="...">` dentro de `class="gallery"`. A categoria (`corporativo`, `feminino`, `masculino`, `especial`) controla o filtro. Coloque o arquivo em `assets/img/` e informe `width` e `height` reais da imagem.
+- **WhatsApp:** o número aparece nos links `https://wa.me/5562991230095`. Para trocar, substitua em todo o arquivo.
 
-Em `src/data/projects.ts`, troque `src` pelo caminho do arquivo em `/public` (ex.: `'/acervo/presenca/01.jpg'`), ajuste `ratio` (largura ÷ altura) e defina `provisional: false` no projeto. Arquivos locais não exibem a etiqueta “Imagem provisória”.
+## Pendências
+
+1. **Domínio definitivo.** Hoje o site aponta para `duettoestudio.netlify.app` (canonical, og:image, `robots.txt`, `sitemap.xml`).
+2. **Link direto das avaliações no Google.** O botão "Ver no Google" faz uma busca no Maps; trocar pelo link do perfil da empresa.
+3. **Mais avaliações.** Só duas estão no site. Vale incluir outras reais do Google.
+4. **Fotos em maior resolução.** Algumas fotos do portfólio têm menos de 500 px de largura (`masculino-jovem`, `masculino-poltrona`, `masculino-terno`, `corporativo-terno-azul`). Para telas de alta densidade, o ideal é ter cerca de 1200 px no lado maior, em WebP.
+5. **Fonte de títulos.** O manual pede Quiche nos títulos. O site usa só Readex Pro, a fonte de texto do manual. Se o estúdio tiver a licença web da Quiche, ela pode entrar nos `h1`, `h2` e `h3`.
