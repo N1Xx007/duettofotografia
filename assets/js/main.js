@@ -1,5 +1,6 @@
-/* Duetto — interações mínimas: menu, filtro do portfólio, foto ampliada e barra de agendamento. */
+/* Duetto — menu, animações de entrada, carrossel de fotos, foto ampliada e botões de agendamento. */
 (() => {
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const header = document.querySelector('.header');
   const toggle = document.querySelector('.menu-toggle');
   const nav = document.getElementById('nav');
@@ -19,32 +20,57 @@
   nav.addEventListener('click', (e) => { if (e.target.closest('a')) setMenu(false); });
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') setMenu(false); });
 
-  /* Filtro do portfólio */
-  const chips = document.querySelectorAll('.chip');
-  const items = [...document.querySelectorAll('.gallery li')];
-  chips.forEach((chip) => {
-    chip.addEventListener('click', () => {
-      const f = chip.dataset.filter;
-      chips.forEach((c) => c.setAttribute('aria-pressed', String(c === chip)));
-      items.forEach((li) => { li.hidden = f !== 'todos' && li.dataset.cat !== f; });
+  /* Animações de entrada: itens dentro de [data-stagger] entram um após o outro */
+  document.querySelectorAll('[data-stagger]').forEach((group) => {
+    group.querySelectorAll(':scope > [data-reveal]').forEach((el, i) => {
+      el.style.setProperty('--delay', `${i * 0.09}s`);
+    });
+  });
+  const hero = document.querySelector('.hero');
+  hero.querySelectorAll('[data-reveal]').forEach((el, i) => {
+    el.style.setProperty('--delay', `${0.1 + i * 0.1}s`);
+  });
+
+  const reveals = document.querySelectorAll('[data-reveal]');
+  if (reduceMotion || !('IntersectionObserver' in window)) {
+    reveals.forEach((el) => el.classList.add('is-in'));
+  } else {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    reveals.forEach((el) => io.observe(el));
+  }
+
+  /* Carrossel contínuo: duplica as fotos para a volta ficar sem emenda */
+  document.querySelectorAll('.marquee__track').forEach((track) => {
+    [...track.children].forEach((li) => {
+      const copy = li.cloneNode(true);
+      copy.setAttribute('aria-hidden', 'true');
+      copy.querySelector('button').tabIndex = -1;
+      track.appendChild(copy);
     });
   });
 
-  /* Foto ampliada */
+  /* Foto ampliada (somente as fotos originais, sem as cópias do carrossel) */
   const box = document.querySelector('.lightbox');
   const boxImg = box.querySelector('img');
+  const shots = [...document.querySelectorAll('.shot')];
+  const originals = shots.filter((b) => !b.closest('[aria-hidden="true"]'));
   let current = 0;
-  const visible = () => items.filter((li) => !li.hidden);
   const show = (i) => {
-    const list = visible();
-    current = (i + list.length) % list.length;
-    const img = list[current].querySelector('img');
+    current = (i + originals.length) % originals.length;
+    const img = originals[current].querySelector('img');
     boxImg.src = img.currentSrc || img.src;
     boxImg.alt = img.alt;
   };
-  items.forEach((li) => {
-    li.querySelector('button').addEventListener('click', () => {
-      show(visible().indexOf(li));
+  shots.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const src = btn.querySelector('img').getAttribute('src');
+      show(originals.findIndex((b) => b.querySelector('img').getAttribute('src') === src));
       box.showModal();
     });
   });
@@ -57,17 +83,19 @@
     if (e.key === 'ArrowRight') show(current + 1);
   });
 
-  /* Barra de agendamento no celular: aparece depois da abertura e some no contato */
+  /* Botão de WhatsApp: aparece depois da abertura e some no contato */
   const bar = document.querySelector('.sticky-cta');
+  const float = document.querySelector('.wa-float');
   const heroActions = document.getElementById('hero-actions');
   const contact = document.getElementById('contato');
-  if (bar && 'IntersectionObserver' in window) {
+  if ('IntersectionObserver' in window) {
     const state = { pastHero: false, inContact: false };
     const update = () => {
       const on = state.pastHero && !state.inContact;
       bar.classList.toggle('is-visible', on);
       bar.setAttribute('aria-hidden', String(!on));
       bar.querySelector('a').tabIndex = on ? 0 : -1;
+      float.classList.toggle('is-visible', on);
     };
     new IntersectionObserver(([e]) => {
       state.pastHero = !e.isIntersecting && e.boundingClientRect.top < 0;

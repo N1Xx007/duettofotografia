@@ -4,15 +4,15 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Duetto Estúdio Fotográfico · Ensaios no Setor Oeste, Goiânia</title>
-  <meta name="description" content="Ensaios corporativos, femininos, masculinos e de 15 anos no Setor Oeste, em Goiânia. Direção de pose, fotos em tempo real e pacotes a partir de R$ 350. Agende pelo WhatsApp.">
+  <meta name="description" content="Fotos profissionais em Goiânia, sem precisar saber posar. Ensaios corporativos, femininos, masculinos e de 15 anos a partir de R$ 350. Agende pelo WhatsApp.">
   <link rel="canonical" href="https://duettoestudio.netlify.app/">
-  <meta name="theme-color" content="#F7F3ED">
+  <meta name="theme-color" content="#FAF7F2">
 
   <meta property="og:type" content="website">
   <meta property="og:locale" content="pt_BR">
   <meta property="og:site_name" content="Duetto Estúdio Fotográfico">
   <meta property="og:title" content="Duetto Estúdio Fotográfico · Goiânia">
-  <meta property="og:description" content="Você não precisa saber posar. Ensaios com direção do começo ao fim, no Setor Oeste.">
+  <meta property="og:description" content="Fotos profissionais sem precisar saber posar. A partir de R$ 350, no Setor Oeste.">
   <meta property="og:url" content="https://duettoestudio.netlify.app/">
   <meta property="og:image" content="https://duettoestudio.netlify.app/assets/img/irmas-estudio.jpg">
 
@@ -21,6 +21,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@300..600&display=swap">
   <link rel="preload" as="image" href="assets/img/irmas-estudio.jpg" fetchpriority="high">
+  <script>document.documentElement.classList.add('js');</script>
   <link rel="stylesheet" href="assets/css/style.css">
   <script src="assets/js/main.js" defer></script>
 
@@ -29,7 +30,7 @@
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "Duetto Estúdio Fotográfico",
-    "description": "Estúdio de fotografia no Setor Oeste, em Goiânia. Ensaios corporativos, femininos, masculinos, de 15 anos e vídeos institucionais.",
+    "description": "Estúdio de fotografia no Setor Oeste, em Goiânia. Ensaios corporativos, femininos, masculinos, de 15 anos e vídeos.",
     "url": "https://duettoestudio.netlify.app/",
     "image": "https://duettoestudio.netlify.app/assets/img/irmas-estudio.jpg",
     "telephone": "+55-62-99123-0095",
@@ -56,11 +57,11 @@
       </a>
 
       <nav class="nav" id="nav" aria-label="Principal">
-        <a href="#trabalhos">Trabalhos</a>
         <a href="#ensaios">Ensaios</a>
-        <a href="#pacotes">Pacotes</a>
-        <a href="#estudio">O estúdio</a>
-        <a href="#videos">Vídeos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#precos">Preços</a>
+        <a href="#trabalhos">Fotos</a>
+        <a href="#duvidas">Dúvidas</a>
         <a href="#contato">Contato</a>
       </nav>
 
@@ -77,386 +78,372 @@
 
     <!-- ============ Abertura ============ -->
     <section class="hero">
+      <div class="hero__glow" aria-hidden="true"></div>
       <div class="container hero__grid">
         <div class="hero__text">
-          <p class="eyebrow">Estúdio fotográfico em Goiânia</p>
-          <h1 class="hero__title">Você não precisa saber posar.</h1>
-          <p class="hero__lead">A gente conduz cada clique. Ensaios corporativos, femininos, masculinos e de 15 anos no Setor Oeste, com direção de pose, fotos vistas em tempo real e um cafezinho esperando por você.</p>
+          <p class="pill" data-reveal>
+            <span class="stars" aria-hidden="true">★★★★★</span>
+            5,0 no Google · Setor Oeste, Goiânia
+          </p>
+          <h1 class="hero__title" data-reveal>Fotos profissionais, sem precisar saber posar.</h1>
+          <p class="hero__lead" data-reveal>A gente te guia em cada foto. Você vê o resultado na hora e recebe tudo editado em até 7 dias úteis.</p>
 
-          <div class="actions" id="hero-actions">
-            <a class="btn" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener">
+          <div class="actions" id="hero-actions" data-reveal>
+            <a class="btn btn--lg" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener">
               <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
               Agendar pelo WhatsApp
             </a>
-            <a class="btn btn--ghost" href="#pacotes">Ver pacotes e preços</a>
+            <a class="btn btn--lg btn--soft" href="#precos">Ver preços</a>
           </div>
 
-          <dl class="facts">
-            <div>
-              <dt>Nota no Google</dt>
-              <dd>5,0 <span class="stars" aria-hidden="true">★★★★★</span></dd>
-            </div>
-            <div>
-              <dt>Pacotes desde</dt>
-              <dd>R$ 350</dd>
-            </div>
-            <div>
-              <dt>Entrega das fotos</dt>
-              <dd>até 7 dias úteis</dd>
-            </div>
-          </dl>
+          <ul class="hero__checks" data-reveal>
+            <li>Parcele em até <strong>5x no cartão</strong></li>
+            <li>Fotógrafa e video maker profissionais</li>
+            <li>Água, café e ar-condicionado</li>
+          </ul>
         </div>
 
-        <figure class="hero__media">
-          <img src="assets/img/irmas-estudio.jpg" width="1100" height="1650" fetchpriority="high"
-               alt="Irlá e Itay Cardoso, fotógrafas da Duetto, no estúdio com fundo infinito e iluminação profissional">
-          <figcaption>Irlá e Itay Cardoso, no estúdio</figcaption>
+        <figure class="hero__media" data-reveal="image">
+          <div class="frame">
+            <img src="assets/img/irmas-estudio.jpg" width="1100" height="1650" fetchpriority="high"
+                 alt="Irlá e Itay Cardoso, fotógrafas da Duetto, no estúdio com fundo infinito e iluminação profissional">
+            <figcaption class="frame__caption">
+              <strong>Irlá e Itay Cardoso</strong>
+              <span>Irmãs e fotógrafas da Duetto</span>
+            </figcaption>
+          </div>
+          <p class="float-card float-card--top" aria-hidden="true">
+            <span class="float-card__label">Você vê as fotos</span>
+            <span class="float-card__value">na hora</span>
+          </p>
+          <p class="float-card float-card--bottom" aria-hidden="true">
+            <span class="float-card__label">Ensaios a partir de</span>
+            <span class="float-card__value">R$ 350</span>
+          </p>
         </figure>
-      </div>
-    </section>
-
-    <!-- ============ Trabalhos ============ -->
-    <section class="section" id="trabalhos" aria-labelledby="trabalhos-title">
-      <div class="container">
-        <div class="section-head section-head--split">
-          <div>
-            <p class="eyebrow">Trabalhos</p>
-            <h2 id="trabalhos-title">Retratos que contam quem você é.</h2>
-          </div>
-          <div class="filters" role="group" aria-label="Filtrar trabalhos por tipo de ensaio">
-            <button type="button" class="chip" data-filter="todos" aria-pressed="true">Todos</button>
-            <button type="button" class="chip" data-filter="corporativo" aria-pressed="false">Corporativo</button>
-            <button type="button" class="chip" data-filter="feminino" aria-pressed="false">Feminino</button>
-            <button type="button" class="chip" data-filter="masculino" aria-pressed="false">Masculino</button>
-            <button type="button" class="chip" data-filter="especial" aria-pressed="false">15 anos e externo</button>
-          </div>
-        </div>
-
-        <ul class="gallery">
-          <li data-cat="corporativo"><button type="button" class="gallery__item"><img src="assets/img/corporativo-espelho.jpg" width="800" height="1201" loading="lazy" alt="Ensaio corporativo feminino com reflexo no espelho"></button><span>Corporativo</span></li>
-          <li data-cat="feminino"><button type="button" class="gallery__item"><img src="assets/img/feminino-pb.jpg" width="800" height="882" loading="lazy" alt="Retrato feminino em preto e branco, fundo escuro"></button><span>Feminino · estúdio</span></li>
-          <li data-cat="masculino"><button type="button" class="gallery__item"><img src="assets/img/masculino-luz.jpg" width="510" height="671" loading="lazy" alt="Retrato masculino com luz dramática"></button><span>Masculino</span></li>
-          <li data-cat="corporativo"><button type="button" class="gallery__item"><img src="assets/img/corporativo-poltrona.jpg" width="635" height="1362" loading="lazy" alt="Ensaio corporativo feminino em ambiente de escritório sofisticado"></button><span>Corporativo</span></li>
-
-          <li data-cat="especial"><button type="button" class="gallery__item"><img src="assets/img/externo-pet.jpg" width="800" height="1201" loading="lazy" alt="Ensaio externo com gato, em preto e branco"></button><span>Externo com pet</span></li>
-          <li data-cat="corporativo"><button type="button" class="gallery__item"><img src="assets/img/corporativo-terno-azul.jpg" width="461" height="819" loading="lazy" alt="Ensaio corporativo masculino de terno azul"></button><span>Corporativo</span></li>
-          <li data-cat="feminino"><button type="button" class="gallery__item"><img src="assets/img/feminino-country.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino com tema country"></button><span>Feminino · temático</span></li>
-          <li data-cat="masculino"><button type="button" class="gallery__item"><img src="assets/img/masculino-casual.jpg" width="700" height="1050" loading="lazy" alt="Retrato masculino casual"></button><span>Masculino</span></li>
-
-          <li data-cat="corporativo"><button type="button" class="gallery__item"><img src="assets/img/corporativo-fundo-claro.jpg" width="800" height="882" loading="lazy" alt="Retrato corporativo feminino em fundo claro"></button><span>Corporativo</span></li>
-          <li data-cat="especial"><button type="button" class="gallery__item"><img src="assets/img/quinze-anos.jpg" width="800" height="1200" loading="lazy" alt="Mãos segurando velas com o número 15, detalhe de ensaio de 15 anos"></button><span>15 anos</span></li>
-          <li data-cat="feminino"><button type="button" class="gallery__item"><img src="assets/img/feminino-fundo-marrom.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino em fundo marrom"></button><span>Feminino · estúdio</span></li>
-          <li data-cat="masculino"><button type="button" class="gallery__item"><img src="assets/img/masculino-terno.jpg" width="467" height="700" loading="lazy" alt="Retrato masculino de terno"></button><span>Masculino</span></li>
-
-          <li data-cat="corporativo"><button type="button" class="gallery__item"><img src="assets/img/corporativo-sofisticado.jpg" width="800" height="926" loading="lazy" alt="Retrato corporativo feminino em ambiente sofisticado"></button><span>Corporativo</span></li>
-          <li data-cat="masculino"><button type="button" class="gallery__item"><img src="assets/img/masculino-jovem.jpg" width="342" height="512" loading="lazy" alt="Retrato masculino jovem"></button><span>Masculino</span></li>
-          <li data-cat="feminino"><button type="button" class="gallery__item"><img src="assets/img/feminino-botas.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino temático com botas"></button><span>Feminino · temático</span></li>
-          <li data-cat="masculino"><button type="button" class="gallery__item"><img src="assets/img/masculino-poltrona.jpg" width="427" height="640" loading="lazy" alt="Retrato masculino sentado em poltrona"></button><span>Masculino</span></li>
-        </ul>
-
-        <p class="gallery__more">
-          Mais trabalhos no Instagram
-          <a class="link" href="https://instagram.com/duettoestudiofotografico" target="_blank" rel="noopener">@duettoestudiofotografico</a>
-        </p>
       </div>
     </section>
 
     <!-- ============ Ensaios ============ -->
-    <section class="section section--tint" id="ensaios" aria-labelledby="ensaios-title">
+    <section class="section" id="ensaios" aria-labelledby="ensaios-title">
       <div class="container">
-        <div class="section-head">
+        <div class="section-head" data-reveal>
           <p class="eyebrow">Ensaios</p>
-          <h2 id="ensaios-title">Um ensaio para cada fase.</h2>
+          <h2 id="ensaios-title">Qual foto você precisa?</h2>
         </div>
 
-        <ul class="services">
-          <li class="service">
-            <h3>Corporativo</h3>
-            <p>Foto profissional para LinkedIn, site, palestra ou uma nova fase da empresa. Cenário de escritório ou fundo infinito bege ou branco, com orientação de pose do começo ao fim.</p>
-            <a class="link" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20corporativo." target="_blank" rel="noopener">Quero um ensaio corporativo</a>
+        <ul class="cards" data-stagger>
+          <li data-reveal>
+            <a class="card" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20corporativo." target="_blank" rel="noopener">
+              <img src="assets/img/corporativo-espelho.jpg" width="800" height="1201" loading="lazy" alt="Ensaio corporativo feminino em ambiente sofisticado">
+              <span class="card__body">
+                <span class="card__title">Corporativo</span>
+                <span class="card__text">Para LinkedIn, site, palestra ou empresa.</span>
+                <span class="card__cta">Quero esse <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
           </li>
-          <li class="service">
-            <h3>Feminino</h3>
-            <p>Para celebrar quem você é agora. Troque de roupa quantas vezes o pacote permitir e escolha entre estúdio, temático ou externo.</p>
-            <a class="link" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20feminino." target="_blank" rel="noopener">Quero um ensaio feminino</a>
+          <li data-reveal>
+            <a class="card" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20feminino." target="_blank" rel="noopener">
+              <img src="assets/img/feminino-pb.jpg" width="800" height="882" loading="lazy" alt="Retrato feminino em preto e branco">
+              <span class="card__body">
+                <span class="card__title">Feminino</span>
+                <span class="card__text">Para celebrar quem você é agora. No estúdio, temático ou externo.</span>
+                <span class="card__cta">Quero esse <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
           </li>
-          <li class="service">
-            <h3>Masculino</h3>
-            <p>Retratos com presença, do casual ao executivo. A gente cuida da luz, da pose e da expressão. Você só precisa aparecer.</p>
-            <a class="link" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20masculino." target="_blank" rel="noopener">Quero um ensaio masculino</a>
+          <li data-reveal>
+            <a class="card" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20o%20ensaio%20masculino." target="_blank" rel="noopener">
+              <img src="assets/img/masculino-luz.jpg" width="510" height="671" loading="lazy" alt="Retrato masculino com luz dramática">
+              <span class="card__body">
+                <span class="card__title">Masculino</span>
+                <span class="card__text">Do casual ao executivo. A gente cuida da luz e da pose.</span>
+                <span class="card__cta">Quero esse <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
           </li>
-          <li class="service">
-            <h3>15 anos, aniversário e externo</h3>
-            <p>Datas especiais, ensaios ao ar livre e até com o seu pet. Internos ou externos, femininos ou masculinos.</p>
-            <a class="link" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20ensaio%20de%2015%20anos%2C%20anivers%C3%A1rio%20ou%20externo." target="_blank" rel="noopener">Quero um ensaio especial</a>
+          <li data-reveal>
+            <a class="card" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20saber%20mais%20sobre%20ensaio%20de%2015%20anos%2C%20anivers%C3%A1rio%20ou%20externo." target="_blank" rel="noopener">
+              <img src="assets/img/quinze-anos.jpg" width="800" height="1200" loading="lazy" alt="Mãos segurando velas com o número 15">
+              <span class="card__body">
+                <span class="card__title">15 anos e datas especiais</span>
+                <span class="card__text">Aniversário, ensaio ao ar livre e até com o seu pet.</span>
+                <span class="card__cta">Quero esse <span aria-hidden="true">→</span></span>
+              </span>
+            </a>
           </li>
         </ul>
       </div>
     </section>
 
-    <!-- ============ Pacotes ============ -->
-    <section class="section section--dark" id="pacotes" aria-labelledby="pacotes-title">
+    <!-- ============ Como funciona ============ -->
+    <section class="section section--soft" id="como-funciona" aria-labelledby="como-title">
       <div class="container">
-        <div class="section-head section-head--split">
-          <div>
-            <p class="eyebrow">Pacotes</p>
-            <h2 id="pacotes-title">Escolha o seu pacote.</h2>
-          </div>
-          <p class="section-head__lead">Todas as fotos são editadas em luz e cor e entregues em alta resolução, numa galeria online para você escolher as favoritas.</p>
+        <div class="section-head section-head--center" data-reveal>
+          <p class="eyebrow">Como funciona</p>
+          <h2 id="como-title">Simples assim.</h2>
         </div>
 
-        <ul class="plans">
-          <li class="plan">
-            <div class="plan__head">
-              <h3>Essencial</h3>
-              <p class="plan__for">Corporativo e empresarial</p>
-            </div>
-            <p class="plan__price"><span>R$</span> 350</p>
-            <p class="plan__time">até 2 horas de ensaio</p>
-            <ul class="plan__list">
-              <li><strong>10 fotos</strong> tratadas</li>
-              <li>1 cenário: fundo infinito bege ou branco</li>
-              <li>Até 3 trocas de roupa</li>
-              <li>Fotos em tempo real</li>
-              <li>Entrega em até 7 dias úteis</li>
-            </ul>
-            <a class="btn btn--light btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Essencial." target="_blank" rel="noopener">Quero o Essencial</a>
-          </li>
-
-          <li class="plan">
-            <div class="plan__head">
-              <h3>Presença</h3>
-              <p class="plan__for">Corporativo e empresarial</p>
-            </div>
-            <p class="plan__price"><span>R$</span> 600</p>
-            <p class="plan__time">até 2 horas de ensaio</p>
-            <ul class="plan__list">
-              <li><strong>20 fotos</strong> tratadas</li>
-              <li>2 cenários: fundo infinito e escritório</li>
-              <li>Até 3 trocas de roupa</li>
-              <li>Orientação de poses</li>
-              <li>1 vídeo de making of</li>
-            </ul>
-            <a class="btn btn--light btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Presen%C3%A7a." target="_blank" rel="noopener">Quero o Presença</a>
-          </li>
-
-          <li class="plan plan--featured">
-            <div class="plan__head">
-              <p class="plan__badge">Melhor custo-benefício</p>
-              <h3>Prime</h3>
-              <p class="plan__for">Corporativo, empresarial e casual</p>
-            </div>
-            <p class="plan__price"><span>R$</span> 750</p>
-            <p class="plan__time">até 3 horas de ensaio</p>
-            <ul class="plan__list">
-              <li><strong>30 fotos</strong> tratadas</li>
-              <li>3 cenários: fundo infinito, escritório e casual</li>
-              <li>3 trocas de roupa</li>
-              <li>Orientação de poses</li>
-              <li>1 vídeo de making of</li>
-            </ul>
-            <a class="btn btn--accent btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Prime." target="_blank" rel="noopener">Quero o Prime</a>
-          </li>
-
-          <li class="plan">
-            <div class="plan__head">
-              <h3>Premium</h3>
-              <p class="plan__for">Ex.: corporativo, casual e aniversário</p>
-            </div>
-            <p class="plan__price"><span>R$</span> 1.200</p>
-            <p class="plan__time">até 3h40 de ensaio</p>
-            <ul class="plan__list">
-              <li><strong>40 fotos</strong> tratadas</li>
-              <li>3 estilos fotográficos à sua escolha</li>
-              <li>Trocas de roupa à vontade</li>
-              <li>Making of de cada ensaio</li>
-              <li>Entrega em até 10 dias úteis</li>
-            </ul>
-            <a class="btn btn--light btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Premium." target="_blank" rel="noopener">Quero o Premium</a>
-          </li>
-        </ul>
-
-        <div class="plans__notes">
-          <p><strong>Precisa de mais fotos?</strong> Cada foto extra custa R$ 25, em qualquer pacote.</p>
-          <p>Todos os pacotes incluem galeria online para seleção. O Premium é exclusivo para ensaio individual.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============ Como reservar ============ -->
-    <section class="section" id="reservar" aria-labelledby="reservar-title">
-      <div class="container">
-        <div class="section-head">
-          <p class="eyebrow">Como reservar</p>
-          <h2 id="reservar-title">Três passos até o seu ensaio.</h2>
-        </div>
-
-        <ol class="steps">
-          <li>
+        <ol class="steps" data-stagger>
+          <li data-reveal>
             <span class="steps__n" aria-hidden="true">1</span>
             <h3>Chame no WhatsApp</h3>
-            <p>Conte que tipo de ensaio você quer. A gente indica o pacote certo e os horários livres.</p>
+            <p>Diga que foto você quer. A gente indica o pacote e mostra os horários livres.</p>
           </li>
-          <li>
+          <li data-reveal>
             <span class="steps__n" aria-hidden="true">2</span>
-            <h3>Garanta a data com 30%</h3>
-            <p>A reserva é confirmada com o pagamento de 30% do pacote. O restante pode ser pago até o dia do ensaio.</p>
+            <h3>Reserve com 30%</h3>
+            <p>Você paga 30% para garantir a data. O resto pode ser pago até o dia do ensaio.</p>
           </li>
-          <li>
+          <li data-reveal>
             <span class="steps__n" aria-hidden="true">3</span>
-            <h3>Venha viver a experiência</h3>
-            <p>Dinheiro, Pix ou cartão em até 5x. Depois, é só escolher as suas fotos na galeria online.</p>
+            <h3>Venha fotografar</h3>
+            <p>A gente te guia em cada pose. Depois, é só escolher as suas fotos favoritas pela internet.</p>
           </li>
         </ol>
-
-        <div class="cta-row">
-          <a class="btn" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener">
-            <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
-            Ver horários livres
-          </a>
-          <p class="fine">A data pode ser alterada uma vez, sujeita a taxa e disponibilidade. Em caso de desistência, o valor pago não é devolvido.</p>
-        </div>
       </div>
     </section>
 
-    <!-- ============ O estúdio ============ -->
-    <section class="section section--tint" id="estudio" aria-labelledby="estudio-title">
+    <!-- ============ Preços ============ -->
+    <section class="section" id="precos" aria-labelledby="precos-title">
+      <div class="container">
+        <div class="section-head section-head--center" data-reveal>
+          <p class="eyebrow">Preços</p>
+          <h2 id="precos-title">Escolha o seu pacote.</h2>
+          <p class="section-head__lead">Todas as fotos vêm editadas e em alta qualidade. Pagamento em dinheiro, Pix ou cartão em até 5x.</p>
+        </div>
+
+        <ul class="plans" data-stagger>
+          <li class="plan" data-reveal>
+            <h3 class="plan__name">Essencial</h3>
+            <p class="plan__price"><span>R$</span>350</p>
+            <p class="plan__summary">10 fotos · até 2 horas</p>
+            <ul class="plan__list">
+              <li>1 cenário: fundo liso bege ou branco</li>
+              <li>Até 3 trocas de roupa</li>
+              <li>Você vê as fotos na hora</li>
+              <li>Pronto em até 7 dias úteis</li>
+            </ul>
+            <a class="btn btn--soft btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Essencial." target="_blank" rel="noopener">Quero o Essencial</a>
+          </li>
+
+          <li class="plan" data-reveal>
+            <h3 class="plan__name">Presença</h3>
+            <p class="plan__price"><span>R$</span>600</p>
+            <p class="plan__summary">20 fotos · até 2 horas</p>
+            <ul class="plan__list">
+              <li>2 cenários: fundo liso e escritório</li>
+              <li>Até 3 trocas de roupa</li>
+              <li>Ajuda com as poses</li>
+              <li>Vídeo dos bastidores</li>
+            </ul>
+            <a class="btn btn--soft btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Presen%C3%A7a." target="_blank" rel="noopener">Quero o Presença</a>
+          </li>
+
+          <li class="plan plan--featured" data-reveal>
+            <p class="plan__badge">Melhor custo-benefício</p>
+            <h3 class="plan__name">Prime</h3>
+            <p class="plan__price"><span>R$</span>750</p>
+            <p class="plan__summary">30 fotos · até 3 horas</p>
+            <ul class="plan__list">
+              <li>3 cenários: fundo liso, escritório e casual</li>
+              <li>3 trocas de roupa</li>
+              <li>Ajuda com as poses</li>
+              <li>Vídeo dos bastidores</li>
+            </ul>
+            <a class="btn btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Prime." target="_blank" rel="noopener">Quero o Prime</a>
+          </li>
+
+          <li class="plan" data-reveal>
+            <h3 class="plan__name">Premium</h3>
+            <p class="plan__price"><span>R$</span>1.200</p>
+            <p class="plan__summary">40 fotos · até 3h40</p>
+            <ul class="plan__list">
+              <li>3 estilos à sua escolha (ex.: corporativo, casual e aniversário)</li>
+              <li>Trocas de roupa à vontade</li>
+              <li>Vídeo dos bastidores de cada estilo</li>
+              <li>Pronto em até 10 dias úteis</li>
+            </ul>
+            <a class="btn btn--soft btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Tenho%20interesse%20no%20pacote%20Premium." target="_blank" rel="noopener">Quero o Premium</a>
+          </li>
+        </ul>
+
+        <p class="plans__note" data-reveal>Quer mais fotos? Cada foto extra custa <strong>R$ 25</strong>. O Premium é só para ensaio individual.</p>
+      </div>
+    </section>
+
+    <!-- ============ Fotos ============ -->
+    <section class="section section--soft section--flush" id="trabalhos" aria-labelledby="trabalhos-title">
+      <div class="container">
+        <div class="section-head section-head--split" data-reveal>
+          <div>
+            <p class="eyebrow">Fotos de clientes</p>
+            <h2 id="trabalhos-title">Feitas aqui no estúdio.</h2>
+          </div>
+          <a class="link" href="https://instagram.com/duettoestudiofotografico" target="_blank" rel="noopener">Ver mais no Instagram</a>
+        </div>
+      </div>
+
+      <div class="marquee" data-reveal>
+        <ul class="marquee__track">
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-poltrona.jpg" width="635" height="1362" loading="lazy" alt="Ensaio corporativo feminino em ambiente de escritório sofisticado"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/externo-pet.jpg" width="800" height="1201" loading="lazy" alt="Ensaio externo com gato, em preto e branco"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-terno-azul.jpg" width="461" height="819" loading="lazy" alt="Ensaio corporativo masculino de terno azul"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/feminino-country.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino com tema country"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/masculino-casual.jpg" width="700" height="1050" loading="lazy" alt="Retrato masculino casual"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-fundo-claro.jpg" width="800" height="882" loading="lazy" alt="Retrato corporativo feminino em fundo claro"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/feminino-fundo-marrom.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino em fundo marrom"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/masculino-terno.jpg" width="467" height="700" loading="lazy" alt="Retrato masculino de terno"></button></li>
+        </ul>
+      </div>
+      <div class="marquee marquee--reverse" data-reveal>
+        <ul class="marquee__track">
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-sofisticado.jpg" width="800" height="926" loading="lazy" alt="Retrato corporativo feminino em ambiente sofisticado"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/masculino-jovem.jpg" width="342" height="512" loading="lazy" alt="Retrato masculino jovem"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/feminino-botas.jpg" width="800" height="882" loading="lazy" alt="Ensaio feminino temático com botas"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-fundo-marrom.jpg" width="900" height="1350" loading="lazy" alt="Ensaio corporativo masculino no fundo marrom do estúdio"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/masculino-poltrona.jpg" width="427" height="640" loading="lazy" alt="Retrato masculino sentado em poltrona"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/corporativo-espelho.jpg" width="800" height="1201" loading="lazy" alt="Ensaio corporativo feminino com reflexo no espelho"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/feminino-pb.jpg" width="800" height="882" loading="lazy" alt="Retrato feminino em preto e branco"></button></li>
+          <li><button type="button" class="shot"><img src="assets/img/quinze-anos.jpg" width="800" height="1200" loading="lazy" alt="Detalhe de ensaio de 15 anos"></button></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ Quem somos ============ -->
+    <section class="section" id="estudio" aria-labelledby="estudio-title">
       <div class="container about">
-        <figure class="about__media">
-          <img src="assets/img/irmas-retrato.jpg" width="800" height="942" loading="lazy" alt="As irmãs fotógrafas Irlá e Itay Cardoso, sorrindo, com câmera e celular">
+        <figure class="about__media" data-reveal="image">
+          <div class="frame">
+            <img src="assets/img/irmas-retrato.jpg" width="800" height="942" loading="lazy" alt="As irmãs fotógrafas Irlá e Itay Cardoso, sorrindo">
+          </div>
         </figure>
 
         <div class="about__text">
-          <p class="eyebrow">O estúdio</p>
-          <h2 id="estudio-title">Duas irmãs, um só olhar.</h2>
-          <p class="about__lead">Somos Irlá e Itay Cardoso. A gente une técnica, sensibilidade e sintonia para registrar quem você é.</p>
-          <p>A direção é leve e natural: você não precisa saber posar, a gente te conduz em cada clique. Durante o ensaio, você acompanha as fotos em tempo real e, depois, escolhe as favoritas numa galeria online.</p>
+          <p class="eyebrow" data-reveal>Quem somos</p>
+          <h2 id="estudio-title" data-reveal>Duas irmãs que amam fotografar gente.</h2>
+          <p class="about__lead" data-reveal>Somos Irlá e Itay Cardoso. Aqui o clima é leve: a gente conversa, te deixa à vontade e mostra exatamente como posar.</p>
 
-          <h3 class="about__subtitle">No estúdio você encontra</h3>
-          <ul class="checklist">
-            <li>Fotógrafa e video maker profissionais</li>
-            <li>Equipamentos profissionais</li>
-            <li>Fundo infinito, escritório e cenário casual</li>
-            <li>Ambiente seguro e climatizado</li>
-            <li>Água e aquele cafezinho</li>
-            <li>Atendimento descontraído e humano</li>
+          <ul class="perks" data-stagger>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Fotógrafa e video maker profissionais</li>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Equipamentos profissionais</li>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Fundo liso, escritório e cenário casual</li>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Ambiente seguro e climatizado</li>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Água e aquele cafezinho</li>
+            <li data-reveal><span class="perks__icon" aria-hidden="true">✦</span>Atendimento descontraído</li>
           </ul>
         </div>
       </div>
     </section>
 
     <!-- ============ Avaliações ============ -->
-    <section class="section" id="avaliacoes" aria-labelledby="avaliacoes-title">
-      <div class="container reviews">
-        <div class="reviews__score">
-          <p class="eyebrow" id="avaliacoes-title">Avaliações no Google</p>
-          <p class="reviews__number">5,0</p>
+    <section class="section section--soft" id="avaliacoes" aria-labelledby="avaliacoes-title">
+      <div class="container">
+        <div class="section-head section-head--center" data-reveal>
+          <p class="eyebrow">Avaliações</p>
+          <h2 id="avaliacoes-title"><span class="score">5,0</span> no Google</h2>
           <p class="stars stars--lg" role="img" aria-label="5 de 5 estrelas">★★★★★</p>
-          <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Duetto%20Est%C3%BAdio%20Fotogr%C3%A1fico%2C%20Rua%2022%2C%20328%2C%20Setor%20Oeste%2C%20Goi%C3%A2nia" target="_blank" rel="noopener">Ver no Google</a>
         </div>
-        <div class="reviews__list">
-          <figure class="quote">
+        <div class="quotes" data-stagger>
+          <figure class="quote" data-reveal>
             <blockquote><p>Amei meu ensaio fotográfico, todas as fotos com excelente qualidade.</p></blockquote>
-            <figcaption>Angelina Esther</figcaption>
+            <figcaption><span class="avatar" aria-hidden="true">A</span>Angelina Esther</figcaption>
           </figure>
-          <figure class="quote">
+          <figure class="quote" data-reveal>
             <blockquote><p>Muito bom mesmo, profissionais muito dedicados.</p></blockquote>
-            <figcaption>Matheus Lopes</figcaption>
+            <figcaption><span class="avatar" aria-hidden="true">M</span>Matheus Lopes</figcaption>
           </figure>
         </div>
+        <p class="center" data-reveal>
+          <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=Duetto%20Est%C3%BAdio%20Fotogr%C3%A1fico%2C%20Rua%2022%2C%20328%2C%20Setor%20Oeste%2C%20Goi%C3%A2nia" target="_blank" rel="noopener">Ver avaliações no Google</a>
+        </p>
       </div>
     </section>
 
     <!-- ============ Vídeos ============ -->
-    <section class="section section--tint" id="videos" aria-labelledby="videos-title">
-      <div class="container videos">
-        <div class="videos__text">
-          <p class="eyebrow">Para empresas</p>
-          <h2 id="videos-title">Vídeos institucionais.</h2>
-          <p class="section-head__lead">Gravamos no nosso estúdio, com direção, posicionamento e roteiro personalizado. Ideal para apresentar o seu negócio no site, no Instagram ou para clientes.</p>
-          <ul class="checklist checklist--one">
-            <li>Iluminação profissional</li>
-            <li>Microfone para áudio limpo</li>
-            <li>Cenário profissional</li>
-            <li>Edição com cortes e tratamento</li>
-            <li>Legendas quando necessário</li>
-          </ul>
-        </div>
-
-        <div class="videos__prices">
+    <section class="section" id="videos" aria-labelledby="videos-title">
+      <div class="container">
+        <div class="video-box" data-reveal>
+          <div class="video-box__text">
+            <p class="eyebrow">Vídeos</p>
+            <h2 id="videos-title">Também gravamos vídeos.</h2>
+            <p>No estúdio, com roteiro, iluminação, microfone e edição. Para o seu Instagram, para apresentar o seu trabalho ou para contar a sua história.</p>
+          </div>
           <dl class="pricelist">
             <div>
-              <dt>Captação <span>cada vídeo, sem edição</span></dt>
+              <dt>Só gravação <span>cada vídeo</span></dt>
               <dd>R$ 250</dd>
             </div>
             <div>
-              <dt>Captação e edição <span>cada vídeo, editado</span></dt>
+              <dt>Gravação e edição <span>cada vídeo</span></dt>
               <dd>R$ 350</dd>
             </div>
             <div>
-              <dt>4 vídeos institucionais <span>pacote completo, editados</span></dt>
+              <dt>Pacote com 4 vídeos <span>gravados e editados</span></dt>
               <dd><s aria-label="de R$ 1.400">R$ 1.400</s> R$ 1.200</dd>
             </div>
           </dl>
-          <a class="btn btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20um%20or%C3%A7amento%20de%20v%C3%ADdeo%20institucional." target="_blank" rel="noopener">Pedir orçamento de vídeo</a>
+          <a class="btn btn--block video-box__cta" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20um%20or%C3%A7amento%20de%20v%C3%ADdeo." target="_blank" rel="noopener">Pedir orçamento de vídeo</a>
         </div>
       </div>
     </section>
 
     <!-- ============ Dúvidas ============ -->
-    <section class="section" id="duvidas" aria-labelledby="duvidas-title">
+    <section class="section section--soft" id="duvidas" aria-labelledby="duvidas-title">
       <div class="container faq">
-        <div class="section-head">
+        <div class="section-head section-head--center" data-reveal>
           <p class="eyebrow">Dúvidas</p>
           <h2 id="duvidas-title">Perguntas frequentes.</h2>
         </div>
 
-        <div class="faq__list">
-          <details>
-            <summary>Eu nunca fiz um ensaio. Preciso saber posar?</summary>
-            <p>Não. A direção de pose acompanha o ensaio do começo ao fim, e você vê as fotos em tempo real para ir se sentindo à vontade.</p>
+        <div class="faq__list" data-stagger>
+          <details data-reveal>
+            <summary>Nunca fiz ensaio. Vou saber posar?</summary>
+            <p>Vai sim. A gente mostra cada pose, do começo ao fim, e você vê as fotos na hora para ir se soltando.</p>
           </details>
-          <details>
-            <summary>Em quanto tempo recebo as fotos?</summary>
-            <p>Em até 7 dias úteis. No pacote Premium, em até 10 dias úteis. Você escolhe as favoritas numa galeria online e recebe tudo em alta resolução.</p>
+          <details data-reveal>
+            <summary>Quando recebo as fotos?</summary>
+            <p>Em até 7 dias úteis (no Premium, até 10). Você escolhe as favoritas num link pela internet e recebe tudo em alta qualidade.</p>
           </details>
-          <details>
-            <summary>Posso trocar de roupa durante o ensaio?</summary>
-            <p>Sim. Os pacotes Essencial, Presença e Prime incluem até 3 trocas de roupa. No Premium, as trocas são à vontade.</p>
+          <details data-reveal>
+            <summary>Posso trocar de roupa?</summary>
+            <p>Pode. Essencial, Presença e Prime têm até 3 trocas. No Premium, quantas você quiser.</p>
           </details>
-          <details>
-            <summary>E se eu quiser mais fotos do que o pacote inclui?</summary>
+          <details data-reveal>
+            <summary>E se eu quiser mais fotos?</summary>
             <p>Cada foto extra custa R$ 25, em qualquer pacote.</p>
           </details>
-          <details>
-            <summary>Como faço para reservar e pagar?</summary>
-            <p>A data é garantida com 30% do valor do pacote, e o restante pode ser pago até o dia do ensaio. Aceitamos dinheiro, Pix ou cartão em até 5x.</p>
+          <details data-reveal>
+            <summary>Como pago?</summary>
+            <p>Você paga 30% para reservar a data e o resto até o dia do ensaio. Aceitamos dinheiro, Pix ou cartão em até 5x.</p>
           </details>
-          <details>
-            <summary>Posso remarcar?</summary>
-            <p>A data pode ser alterada uma vez, sujeita a taxa e à disponibilidade da agenda. Em caso de desistência, o valor pago não é devolvido.</p>
+          <details data-reveal>
+            <summary>Posso mudar a data?</summary>
+            <p>Uma vez, com taxa e de acordo com a agenda. Se você desistir, o valor pago não é devolvido.</p>
           </details>
-          <details>
-            <summary>Vocês fazem ensaios fora do estúdio?</summary>
-            <p>Sim. Fazemos ensaios externos, inclusive com o seu pet, além de 15 anos e aniversários. Chame no WhatsApp para combinar o local.</p>
+          <details data-reveal>
+            <summary>Vocês fotografam fora do estúdio?</summary>
+            <p>Sim. Fazemos ensaios ao ar livre, inclusive com o seu pet. Chame no WhatsApp para combinar o lugar.</p>
           </details>
         </div>
       </div>
     </section>
 
     <!-- ============ Contato ============ -->
-    <section class="section section--dark contact" id="contato" aria-labelledby="contato-title">
-      <div class="container contact__grid">
-        <div class="contact__main">
-          <p class="eyebrow">Contato</p>
-          <h2 id="contato-title">Vamos marcar o seu ensaio?</h2>
-          <p class="section-head__lead">Mande uma mensagem com o tipo de ensaio que você quer. A gente responde com os pacotes e os horários livres.</p>
-          <div class="actions">
-            <a class="btn btn--accent" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener">
-              <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
-              Agendar pelo WhatsApp
-            </a>
-            <a class="btn btn--ghost-light" href="https://www.google.com/maps/search/?api=1&amp;query=Duetto%20Est%C3%BAdio%20Fotogr%C3%A1fico%2C%20Rua%2022%2C%20328%2C%20Setor%20Oeste%2C%20Goi%C3%A2nia" target="_blank" rel="noopener">Como chegar</a>
+    <section class="section" id="contato" aria-labelledby="contato-title">
+      <div class="container">
+        <div class="contact" data-reveal>
+          <div class="contact__main">
+            <h2 id="contato-title">Vamos marcar as suas fotos?</h2>
+            <p>Mande uma mensagem dizendo que foto você quer. A gente responde com os horários livres.</p>
+            <div class="actions">
+              <a class="btn btn--lg btn--light" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener">
+                <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
+                Agendar pelo WhatsApp
+              </a>
+              <a class="btn btn--lg btn--outline-light" href="https://www.google.com/maps/search/?api=1&amp;query=Duetto%20Est%C3%BAdio%20Fotogr%C3%A1fico%2C%20Rua%2022%2C%20328%2C%20Setor%20Oeste%2C%20Goi%C3%A2nia" target="_blank" rel="noopener">Como chegar</a>
+            </div>
           </div>
 
           <dl class="contact__info">
@@ -466,11 +453,7 @@
             </div>
             <div>
               <dt>WhatsApp</dt>
-              <dd><a href="https://wa.me/5562991230095" target="_blank" rel="noopener">(62) 99123-0095</a></dd>
-            </div>
-            <div>
-              <dt>Atendimento</dt>
-              <dd>WhatsApp das 8h às 21h<br>Ensaios com horário agendado</dd>
+              <dd><a href="https://wa.me/5562991230095" target="_blank" rel="noopener">(62) 99123-0095</a><br>Das 8h às 21h</dd>
             </div>
             <div>
               <dt>Instagram</dt>
@@ -482,10 +465,6 @@
             </div>
           </dl>
         </div>
-
-        <figure class="contact__media">
-          <img src="assets/img/corporativo-fundo-marrom.jpg" width="900" height="1350" loading="lazy" alt="Ensaio corporativo masculino no fundo marrom do estúdio Duetto">
-        </figure>
       </div>
     </section>
   </main>
@@ -493,12 +472,15 @@
   <footer class="footer">
     <div class="container footer__inner">
       <svg class="footer__logo" viewBox="0 0 874 330" role="img" aria-label="Duetto Estúdio Fotográfico. Dois olhares, um só clique."><use href="assets/img/logo.svg#duetto"/></svg>
-      <p>© <span data-year>2026</span> Duetto Estúdio Fotográfico · Setor Oeste, Goiânia – GO</p>
+      <p>© <span data-year>2026</span> Duetto Estúdio Fotográfico · Ensaios com horário agendado</p>
       <a href="#topo" class="link">Voltar ao topo</a>
     </div>
   </footer>
 
-  <!-- Barra fixa de agendamento (celular) -->
+  <!-- Botão flutuante (computador) e barra fixa (celular) -->
+  <a class="wa-float" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener" aria-label="Agendar pelo WhatsApp">
+    <svg aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
+  </a>
   <div class="sticky-cta" aria-hidden="true">
     <a class="btn btn--block" href="https://wa.me/5562991230095?text=Ol%C3%A1%2C%20Duetto!%20Quero%20agendar%20um%20ensaio." target="_blank" rel="noopener" tabindex="-1">
       <svg class="icon" aria-hidden="true" viewBox="0 0 24 24"><use href="#i-wa"/></svg>
@@ -506,7 +488,7 @@
     </a>
   </div>
 
-  <!-- Visualização ampliada das fotos -->
+  <!-- Foto ampliada -->
   <dialog class="lightbox" aria-label="Foto ampliada">
     <img alt="">
     <button type="button" class="lightbox__close" aria-label="Fechar">Fechar</button>
