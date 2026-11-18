@@ -428,6 +428,9 @@ strong { font-weight: 500; }
     grid-auto-columns: 78%;
     gap: 12px;
     overflow-x: auto;
+    overflow-y: hidden;              /* só rola para os lados: arrastar para baixo rola a página */
+    overscroll-behavior-x: contain;
+    touch-action: pan-x pan-y;
     scroll-snap-type: x mandatory;
     scrollbar-width: none;
     margin-inline: calc(var(--gutter) * -1);
