@@ -45,14 +45,110 @@
     reveals.forEach((el) => io.observe(el));
   }
 
-  /* Carrossel contínuo: duplica as fotos para a volta ficar sem emenda */
-  document.querySelectorAll('.marquee__track').forEach((track) => {
+  /* Carrossel contínuo com arraste.
+     As fotos são duplicadas para a volta ficar sem emenda. O deslocamento é controlado aqui:
+     anda sozinho, pausa com o mouse em cima, pode ser arrastado (com embalo ao soltar)
+     e continua andando de onde a pessoa deixou. */
+  document.querySelectorAll('.marquee').forEach((marquee) => {
+    const track = marquee.querySelector('.marquee__track');
     [...track.children].forEach((li) => {
       const copy = li.cloneNode(true);
       copy.setAttribute('aria-hidden', 'true');
       copy.querySelector('button').tabIndex = -1;
       track.appendChild(copy);
     });
+
+    const reverse = marquee.classList.contains('marquee--reverse');
+    const dir = reverse ? 1 : -1;
+    const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+    let period = 1;           // largura de uma volta completa (metade do trilho)
+    let speed = 0;            // px por segundo
+    let x = 0;
+    let hovered = false;
+    let dragging = false;
+    let moved = 0;
+    let startX = 0;
+    let startOffset = 0;
+    let velocity = 0;         // embalo depois de soltar (px por quadro)
+    let lastMoveX = 0;
+    let lastMoveT = 0;
+    let pointerId = null;
+
+    const measure = () => {
+      period = (track.scrollWidth + gap) / 2 || 1;
+      speed = period / (reverse ? 80 : 70);
+    };
+    const wrap = (v) => ((v % period) - period) % period;   // mantém x entre -period e 0
+    const render = () => { track.style.transform = `translate3d(${x}px,0,0)`; };
+
+    measure();
+    if (reverse) x = -period / 2;
+    render();
+    window.addEventListener('resize', measure);
+    track.querySelectorAll('img').forEach((img) => img.addEventListener('load', measure, { once: true }));
+
+    let last = performance.now();
+    const tick = (now) => {
+      const dt = Math.min((now - last) / 1000, 0.05);
+      last = now;
+      if (!dragging) {
+        if (Math.abs(velocity) > 0.1) {
+          x += velocity;
+          velocity *= 0.94;
+        } else if (!hovered && !reduceMotion) {
+          x += dir * speed * dt;
+        }
+        x = wrap(x);
+        render();
+      }
+      requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
+
+    marquee.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') hovered = true; });
+    marquee.addEventListener('pointerleave', (e) => { if (e.pointerType === 'mouse') hovered = false; });
+    marquee.addEventListener('focusin', () => { hovered = true; });
+    marquee.addEventListener('focusout', () => { hovered = false; });
+
+    marquee.addEventListener('pointerdown', (e) => {
+      if (e.pointerType === 'mouse' && e.button !== 0) return;
+      dragging = true;
+      moved = 0;
+      velocity = 0;
+      startX = lastMoveX = e.clientX;
+      startOffset = x;
+      lastMoveT = performance.now();
+      pointerId = e.pointerId;
+    });
+    marquee.addEventListener('pointermove', (e) => {
+      if (!dragging || e.pointerId !== pointerId) return;
+      const dx = e.clientX - startX;
+      moved = Math.max(moved, Math.abs(dx));
+      if (moved > 6 && !marquee.classList.contains('is-dragging')) {
+        marquee.classList.add('is-dragging');
+        marquee.setPointerCapture(e.pointerId);
+      }
+      const now = performance.now();
+      const frames = Math.max((now - lastMoveT) / 16.7, 1);
+      velocity = (e.clientX - lastMoveX) / frames;
+      lastMoveX = e.clientX;
+      lastMoveT = now;
+      x = wrap(startOffset + dx);
+      render();
+    });
+    const endDrag = (e) => {
+      if (!dragging || (e && e.pointerId !== pointerId)) return;
+      dragging = false;
+      marquee.classList.remove('is-dragging');
+      if (performance.now() - lastMoveT > 80) velocity = 0;   // soltou parado: sem embalo
+      if (moved <= 6) velocity = 0;
+    };
+    marquee.addEventListener('pointerup', endDrag);
+    marquee.addEventListener('pointercancel', endDrag);
+    /* Se a pessoa arrastou, o soltar não conta como clique na foto */
+    marquee.addEventListener('click', (e) => {
+      if (moved > 6) { e.preventDefault(); e.stopPropagation(); }
+    }, true);
   });
 
   /* Foto ampliada (somente as fotos originais, sem as cópias do carrossel) */
